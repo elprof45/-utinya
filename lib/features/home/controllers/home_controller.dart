@@ -50,6 +50,5 @@ class HomeController extends GetxController {
     isLoading.value = false;
   }
 
-  @override
   Future<void> refresh() => loadData();
 }

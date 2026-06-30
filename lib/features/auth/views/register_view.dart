@@ -28,7 +28,8 @@ class RegisterView extends GetView<AuthController> {
       body: SingleChildScrollView(
         padding: EdgeInsets.symmetric(horizontal: AppSpacing.xxl),
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+          crossAxisAlignment: .center,
+          mainAxisAlignment: .center,
           children: [
             SizedBox(height: AppSpacing.xl),
             Text(
@@ -39,7 +40,7 @@ class RegisterView extends GetView<AuthController> {
             ),
             SizedBox(height: AppSpacing.sm),
             Text(
-              'Rejoignez la communauté AfriBook 🌍',
+              'Rejoignez la communauté AfriBook',
               style: AppTypography.bodyLarge.copyWith(
                 color: AppColors.textSecondaryDark,
               ),

@@ -21,7 +21,7 @@ class BuildFeaturedCarousel extends StatelessWidget {
     return Obx(
       () => CarouselSlider(
         options: CarouselOptions(
-          height: 240.h,
+          height: 300.h,
           viewportFraction: 0.88,
           enlargeCenterPage: true,
           autoPlay: true,

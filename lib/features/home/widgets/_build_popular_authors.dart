@@ -59,20 +59,6 @@ class BuildPopularAuthors extends StatelessWidget {
   }
 }
 
-// ─── AUTHOR CHIP ─────────────────────────────────────────────────────────────
-// FIX: this widget previously caused a "RenderFlex overflowed by 5.1 pixels
-// on the bottom" error. The Column (avatar + name + content count) was
-// taller than the 110.h container it was given once real font metrics
-// were applied — this happened even at a *smaller* system text scale
-// (0.85x), confirming the base layout itself didn't have enough room.
-//
-// Fixes applied here:
-//   1. mainAxisSize: MainAxisSize.min on the outer Column.
-//   2. Both text lines wrapped in Flexible + FittedBox(scaleDown), so if
-//      the available space is ever too small (e.g. larger system font
-//      scale, smaller screens), the text shrinks instead of overflowing.
-//   3. Paired with the increased 132.h container height in
-//      _buildPopularAuthors above.
 class _AuthorChip extends StatelessWidget {
   final AuthorModel author;
 

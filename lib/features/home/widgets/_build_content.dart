@@ -26,7 +26,6 @@ class BuildContent extends StatelessWidget {
       child: CustomScrollView(
         slivers: [
           BuildAppBar(),
-
           // Utilisez des Slivers individuels plutôt qu'une grosse colonne unique
           SliverToBoxAdapter(child: BuildProverbBanner()),
           SliverToBoxAdapter(child: SizedBox(height: AppSpacing.xl)),
