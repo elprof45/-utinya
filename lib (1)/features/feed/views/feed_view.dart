@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import '../../../app/theme/app_colors.dart';
+import '../../../../lib/app/theme/theme/app_colors.dart';
 import '../../../app/widgets/comment_sheet.dart';
 import '../controllers/feed_controller.dart';
 

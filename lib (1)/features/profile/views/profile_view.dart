@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import '../../../app/theme/app_colors.dart';
+import '../../../../lib/app/theme/theme/app_colors.dart';
 import '../../../app/widgets/avatar_placeholder.dart';
 import '../../../app/widgets/tribal_divider.dart';
 import '../controllers/profile_controller.dart';

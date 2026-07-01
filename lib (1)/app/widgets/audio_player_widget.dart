@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../../features/detail/controllers/detail_controller.dart';
-import '../theme/app_colors.dart';
+import '../../../lib/app/theme/theme/app_colors.dart';
 
 class AudioPlayerWidget extends StatelessWidget {
   final DetailController controller;
   const AudioPlayerWidget({super.key, required this.controller});
-
   @override
   Widget build(BuildContext context) {
     return Container(

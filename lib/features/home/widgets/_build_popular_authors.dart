@@ -36,12 +36,6 @@ class BuildPopularAuthors extends StatelessWidget {
           ),
         ),
         SizedBox(height: AppSpacing.sm),
-        // FIX: increased from 110.h -> 132.h. The previous height was too
-        // tight for avatar (64.h) + spacing + 2 lines of text once real
-        // font metrics/line-height were applied, causing a RenderFlex
-        // overflow in _AuthorChip. See _AuthorChip below for the matching
-        // defensive fix (Flexible + FittedBox) that prevents this from
-        // ever happening again, even with larger system text scaling.
         SizedBox(
           height: 132.h,
           child: ListView.builder(

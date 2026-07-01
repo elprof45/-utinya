@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import '../../../app/theme/app_colors.dart';
+import '../../../../lib/app/theme/theme/app_colors.dart';
 import '../../../app/widgets/category_chip_widget.dart';
 import '../../../app/widgets/primary_button.dart';
 import '../controllers/config_controller.dart';

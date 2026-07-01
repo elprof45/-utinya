@@ -9,8 +9,10 @@ import 'package:egliloo/data/models/category_model.dart';
 import 'package:egliloo/data/models/content_model.dart';
 import 'package:egliloo/features/detail/controllers/detail_controller.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:share_plus/share_plus.dart';
 
 class DetailView extends GetView<DetailController> {
   const DetailView({super.key});
@@ -49,84 +51,150 @@ class DetailView extends GetView<DetailController> {
     });
   }
 
-  // ─── HERO APPBAR ─────────────────────────────────────────────────────────
+  // ─── HERO APPBAR MODERNE & AVANCÉE ───────────────────────────────────────
   SliverAppBar _buildHeroAppBar(ContentModel content) {
     return SliverAppBar(
-      expandedHeight: 320.h,
+      expandedHeight: 340.h, // Légèrement agrandi pour un effet plus immersif
       pinned: true,
+      elevation: 0,
+      scrolledUnderElevation: 0,
       backgroundColor: AppColors.backgroundDark,
-      leading: IconButton(
-        icon: Container(
-          padding: EdgeInsets.all(6.w),
-          decoration: BoxDecoration(
-            color: Colors.black54,
-            shape: BoxShape.circle,
-          ),
-          child: const Icon(
-            Icons.arrow_back_ios_rounded,
-            color: Colors.white,
-            size: 18,
+      // Supprime le décalage natif du bouton retour sur iOS
+      leadingWidth: 56.w,
+      leading: Padding(
+        padding: EdgeInsets.only(left: 12.w),
+        child: Center(
+          child: _buildBlurCircleButton(
+            icon: Icons.arrow_back_ios_new_rounded,
+            onTap: Get.back,
+            tooltip: 'Retour',
           ),
         ),
-        onPressed: Get.back,
       ),
       actions: [
         Obx(
-          () => IconButton(
-            icon: Container(
-              padding: EdgeInsets.all(6.w),
-              decoration: BoxDecoration(
-                color: Colors.black54,
-                shape: BoxShape.circle,
-              ),
-              child: Icon(
-                controller.isBookmarked.value
-                    ? Icons.bookmark_rounded
-                    : Icons.bookmark_border_rounded,
-                color: controller.isBookmarked.value
-                    ? AppColors.primary
-                    : Colors.white,
-                size: 18,
-              ),
-            ),
-            onPressed: controller.toggleBookmark,
+          () => _buildBlurCircleButton(
+            icon: controller.isBookmarked.value
+                ? Icons.bookmark_rounded
+                : Icons.bookmark_border_rounded,
+            iconColor: controller.isBookmarked.value
+                ? AppColors.primary
+                : Colors.white,
+            onTap: () {
+              HapticFeedback.lightImpact(); // Micro-vibration au clic
+              controller.toggleBookmark();
+            },
+            tooltip: controller.isBookmarked.value
+                ? 'Retirer des favoris'
+                : 'Ajouter aux favoris',
           ),
         ),
-        IconButton(
-          icon: Container(
-            padding: EdgeInsets.all(6.w),
-            decoration: BoxDecoration(
-              color: Colors.black54,
-              shape: BoxShape.circle,
-            ),
-            child: const Icon(
-              Icons.share_outlined,
-              color: Colors.white,
-              size: 18,
-            ),
-          ),
-          onPressed: () {},
+        SizedBox(width: 8.w),
+        _buildBlurCircleButton(
+          icon: Icons.share_rounded, // Icône de partage plus moderne
+          onTap: () {
+            HapticFeedback.mediumImpact(); // Vibration plus marquée pour le partage
+            _shareContent(content);
+          },
+          tooltip: 'Partager',
         ),
-        SizedBox(width: 4.w),
+        SizedBox(width: 16.w), // Marge finale à droite harmonisée
       ],
       flexibleSpace: FlexibleSpaceBar(
+        stretchModes: const [
+          StretchMode.zoomBackground,
+          StretchMode.blurBackground,
+        ],
+        // Titre dynamique qui apparaît proprement uniquement quand l'AppBar est repliée
+        title: LayoutBuilder(
+          builder: (context, constraints) {
+            // Détection du niveau de repliement de l'AppBar
+            final top = constraints.biggest.height;
+            final isCollapsed =
+                top <=
+                (kToolbarHeight + MediaQuery.of(context).padding.top + 20);
+
+            return AnimatedOpacity(
+              duration: const Duration(milliseconds: 200),
+              opacity: isCollapsed ? 1.0 : 0.0,
+              child: Text(
+                content.title,
+                style: AppTypography.titleMedium.copyWith(
+                  color: AppColors.textPrimaryDark,
+                  fontWeight: FontWeight.w700,
+                ),
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+              ),
+            );
+          },
+        ),
         background: Stack(
           fit: StackFit.expand,
           children: [
-            SafeNetworkImage(imageUrl: content.coverImage, fit: BoxFit.cover),
+            SafeNetworkImage(
+              imageUrl: content.coverImage,
+              fit: BoxFit.cover,
+              cacheSize: 1200, // Résolution optimisée pour les bannières Hero
+            ),
+            // Double dégradé pro : un en haut pour les boutons, un en bas pour le titre
             const DecoratedBox(
               decoration: BoxDecoration(
                 gradient: LinearGradient(
                   begin: Alignment.topCenter,
                   end: Alignment.bottomCenter,
-                  colors: [Colors.transparent, Color(0xFF0C0C0C)],
-                  stops: [0.4, 1.0],
+                  colors: [
+                    Colors.black54,
+                    Colors.transparent,
+                    Colors.transparent,
+                    Color(0xFF0C0C0C),
+                  ],
+                  stops: [0.0, 0.25, 0.6, 1.0],
                 ),
               ),
             ),
           ],
         ),
       ),
+    );
+  }
+
+  // Composant interne pour factoriser et styliser les boutons ronds
+  Widget _buildBlurCircleButton({
+    required IconData icon,
+    required VoidCallback onTap,
+    required String tooltip,
+    Color iconColor = Colors.white,
+  }) {
+    return Tooltip(
+      message: tooltip,
+      child: ClipOval(
+        child: Material(
+          color: Colors.black.withValues(alpha: 0.4), // Fond sombre translucide
+          child: InkWell(
+            onTap: onTap,
+            splashColor: Colors.white.withValues(alpha: 0.15),
+            highlightColor: Colors.white.withValues(alpha: 0.05),
+            child: SizedBox(
+              width: 36.w,
+              height: 36.w,
+              child: Icon(icon, color: iconColor, size: 18.w),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  // Logique métier propre pour le partage de contenu (livres, flux, articles)
+  void _shareContent(ContentModel content) {
+    final String shareMessage =
+        'Découvrez « ${content.title} » par ${content.authorName} sur AfriBook.\n'
+        'Lien de téléchargement : https://page.link{content.id}'; // Remplacer par vos liens dynamiques Firebase/Branch
+
+    Share.share(
+      shareMessage,
+      subject: 'Recommandation AfriBook : ${content.title}',
     );
   }
 

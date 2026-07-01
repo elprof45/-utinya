@@ -39,12 +39,12 @@ dependencies:
 
   # Shared Preferences & Storage
   shared_preferences: ^2.5.5
-  path_provider: ^2.1.3
+  path_provider: ^2.1.6
   uuid: ^4.4.0
 
   # Network
   dio: ^5.9.2
-  connectivity_plus: ^6.1.1
+  connectivity_plus: ^7.2.0
 
   # Media Players
   just_audio: ^0.10.5
@@ -67,27 +67,30 @@ dependencies:
   flutter_staggered_grid_view: ^0.7.0
 
   # Markdown
-  flutter_markdown: ^0.7.7+1
+  flutter_markdown_plus: ^1.0.7
   markdown: ^7.2.2
 
   # Pagination
   infinite_scroll_pagination: ^5.1.1
 
   # Utilities
-  intl: ^0.19.0
+  intl: ^0.20.3
   share_plus: ^13.2.0
   url_launcher: ^6.3.2
   permission_handler: ^12.0.3
   image_picker: ^1.2.2
   package_info_plus: ^10.2.0
+  comment_tree_full: ^0.1.0
+  provider: ^6.1.5+1
+  path: ^1.9.1
+  open_filex: ^4.7.0
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_lints: ^6.0.0
-  hive_generator: ^2.0.1
-  build_runner: ^2.4.9
-  mockito: ^5.4.4
+  build_runner: ^2.15.0 # Mettez à jour ici
+  mockito: ^5.7.0 # Mettez à jour ici
 
 flutter:
   uses-material-design: true

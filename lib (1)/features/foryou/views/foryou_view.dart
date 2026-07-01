@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../../../app/data/models/content_model.dart';
-import '../../../app/theme/app_colors.dart';
+import '../../../../lib/app/theme/theme/app_colors.dart';
 import '../controllers/foryou_controller.dart';
 
 class ForYouView extends GetView<ForYouController> {

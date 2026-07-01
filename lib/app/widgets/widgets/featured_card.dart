@@ -1,6 +1,6 @@
+import 'package:egliloo/app/theme/theme/app_colors.dart';
+import 'package:egliloo/data/data/models/content_model.dart';
 import 'package:flutter/material.dart';
-import '../data/models/content_model.dart';
-import '../../../lib/app/theme/theme/app_colors.dart';
 
 class FeaturedCard extends StatelessWidget {
   final ContentModel content;

@@ -255,7 +255,6 @@ class _ContentCardPortrait extends StatelessWidget {
                               color: AppColors.primary,
                             ),
                             if (content.isTrending) ...[
-                              SizedBox(width: 6.w),
                               const _FloatingBadge(
                                 label: '🔥 Trend',
                                 color: AppColors.accent,
@@ -334,7 +333,7 @@ class _ContentCardPortrait extends StatelessWidget {
                       child: Text(
                         content.formattedDuration,
                         style: AppTypography.caption.copyWith(
-                          color: AppColors.textTertiaryDark,
+                          color: const Color.fromARGB(255, 216, 13, 114),
                           fontWeight: FontWeight.w600,
                         ),
                         maxLines: 1,

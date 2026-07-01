@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 
 import 'app/routes/app_pages.dart';
 import 'app/routes/app_routes.dart';
-import 'app/theme/app_theme.dart';
+import '../lib/app/theme/theme/app_theme.dart';
 
 void main() {
   runApp(const AfroloreApp());

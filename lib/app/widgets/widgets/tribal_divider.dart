@@ -1,5 +1,5 @@
+import 'package:egliloo/app/theme/theme/app_colors.dart';
 import 'package:flutter/material.dart';
-import '../../../lib/app/theme/theme/app_colors.dart';
 
 /// A subtle zigzag + diamond divider, evoking tribal geometric borders.
 class TribalDivider extends StatelessWidget {

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_markdown/flutter_markdown.dart';
+import 'package:flutter_markdown_plus/flutter_markdown_plus.dart';
 import 'package:get/get.dart';
-import '../../../app/theme/app_colors.dart';
+import '../../../../lib/app/theme/theme/app_colors.dart';
 import '../../../app/widgets/audio_player_widget.dart';
 import '../../../app/widgets/avatar_placeholder.dart';
 import '../../../app/widgets/comment_sheet.dart';

@@ -53,7 +53,6 @@ class BuildContent extends StatelessWidget {
             ),
           ),
           SliverToBoxAdapter(child: SizedBox(height: AppSpacing.xxl)),
-
           SliverToBoxAdapter(child: BuildCategoryChips()),
           SliverToBoxAdapter(child: SizedBox(height: AppSpacing.xxl)),
 
@@ -68,7 +67,7 @@ class BuildContent extends StatelessWidget {
           SliverToBoxAdapter(child: SizedBox(height: AppSpacing.xxl)),
 
           SliverToBoxAdapter(child: BuildPopularAuthors()),
-          SliverToBoxAdapter(child: SizedBox(height: AppSpacing.xxl)),
+          SliverToBoxAdapter(child: SizedBox(height: AppSpacing.sm)),
 
           SliverToBoxAdapter(
             child: BuildSection(

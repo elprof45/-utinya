@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../../../app/data/models/content_model.dart';
-import '../../../app/theme/app_colors.dart';
+import '../../../../lib/app/theme/theme/app_colors.dart';
 import '../../../app/widgets/avatar_placeholder.dart';
 import '../../../app/widgets/content_card.dart';
 import '../../../app/widgets/featured_card.dart';

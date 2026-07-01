@@ -1,5 +1,7 @@
 // lib/main.dart — AfriBook Entry Point
 
+import 'package:egliloo/features/test/test_home.dart';
+import 'package:egliloo/features/test/test_home_t_t.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
@@ -8,17 +10,21 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'app/routes/app_pages.dart';
 import 'app/theme/app_theme.dart';
 
-Future<void> main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-  await GetStorage.init();
-  SystemChrome.setSystemUIOverlayStyle(
-    const SystemUiOverlayStyle(
-      statusBarColor: Colors.transparent,
-      statusBarIconBrightness: Brightness.light,
-    ),
-  );
-  SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
-  runApp(const AfriBookApp());
+// Future<void> main() async {
+//   WidgetsFlutterBinding.ensureInitialized();
+//   await GetStorage.init();
+//   SystemChrome.setSystemUIOverlayStyle(
+//     const SystemUiOverlayStyle(
+//       statusBarColor: Colors.transparent,
+//       statusBarIconBrightness: Brightness.light,
+//     ),
+//   );
+//   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
+//   runApp(const AfriBookApp());
+// }
+
+void main() {
+  runApp(const AfoMediaAppN1());
 }
 
 class AfriBookApp extends StatelessWidget {

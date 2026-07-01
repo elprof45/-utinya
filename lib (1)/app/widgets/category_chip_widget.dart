@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import '../data/models/category_model.dart';
-import '../theme/app_colors.dart';
+import '../../../lib/app/theme/theme/app_colors.dart';
 
 class CategoryChipWidget extends StatelessWidget {
   final CategoryModel category;

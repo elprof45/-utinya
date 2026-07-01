@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import '../../../app/theme/app_colors.dart';
+import '../../../../lib/app/theme/theme/app_colors.dart';
 import '../../../app/widgets/primary_button.dart';
 import '../../../app/widgets/tribal_divider.dart';
 import '../controllers/auth_controller.dart';
