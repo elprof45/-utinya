@@ -1266,7 +1266,8 @@ class _HeroCard extends StatelessWidget {
       child: Stack(
         fit: StackFit.expand,
         children: [
-          Image.network(card.backgroundImage, fit: BoxFit.cover),
+          Image.network(card.backgroundImage, 
+          fit: BoxFit.cover),
           Container(
             color: card.backgroundTint.withOpacity(card.overlayOpacity),
           ),

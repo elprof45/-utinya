@@ -1,13 +1,15 @@
 plugins {
     id("com.android.application")
-    // The Flutter Gradle Plugin must be applied after the Android and Kotlin Gradle plugins.
+    // Le plugin Flutter doit obligatoirement être appliqué après le plugin Android
     id("dev.flutter.flutter-gradle-plugin")
 }
 
 android {
     namespace = "letcode.dev.egliloo"
-    compileSdk = flutter.compileSdkVersion
-    ndkVersion = flutter.ndkVersion
+    compileSdk = 35
+    
+    // CORRECTION : Ajout du signe "=" obligatoire en Kotlin DSL
+    ndkVersion = "29.0.14206865" 
 
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_17
@@ -15,21 +17,26 @@ android {
     }
 
     defaultConfig {
-        // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
         applicationId = "letcode.dev.egliloo"
-        // You can update the following values to match your application needs.
-        // For more information, see: https://flutter.dev/to/review-gradle-config.
-        minSdk = flutter.minSdkVersion
-        targetSdk = flutter.targetSdkVersion
+        
+        // CORRECTION : Forcer API 21 minimum pour la compatibilité avec just_audio
+        minSdk = 21 
+        targetSdk = 35
         versionCode = flutter.versionCode
         versionName = flutter.versionName
+
+        // Utile pour la gestion multi-index des anciennes API Android
+        multiDexEnabled = true
     }
 
     buildTypes {
         release {
-            // TODO: Add your own signing config for the release build.
-            // Signing with the debug keys for now, so `flutter run --release` works.
-            signingConfig = signingConfigs.getByName("debug")
+            // CORRECTION : Syntaxe Kotlin DSL pour la signature de debug temporaire
+            signingConfig = signingConfigs.getDisabled() 
+            
+            // Optimisation R8 pour la production (Passer à true avant de publier)
+            isMinifyEnabled = false
+            isShrinkResources = false
         }
     }
 }

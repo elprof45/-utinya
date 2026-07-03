@@ -56,7 +56,6 @@ class _FeaturedCard extends StatelessWidget {
           child: Stack(
             fit: StackFit.expand,
             children: [
-              // ✅ UTILISATION DU BOUCLIER SAFE_NETWORK_IMAGE
               SafeNetworkImage(
                 imageUrl: content.coverImage,
                 fit: BoxFit.cover,

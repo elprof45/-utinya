@@ -1,6 +1,7 @@
 // lib/main.dart — AfriBook Entry Point
 
 import 'package:egliloo/features/test/test_home.dart';
+import 'package:egliloo/features/test/test_home_t.dart';
 import 'package:egliloo/features/test/test_home_t_t.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -24,7 +25,7 @@ import 'app/theme/app_theme.dart';
 // }
 
 void main() {
-  runApp(const AfoMediaAppN1());
+  runApp(const AfoMediaAppN3());
 }
 
 class AfriBookApp extends StatelessWidget {
