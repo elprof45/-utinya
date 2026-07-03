@@ -1,4 +1,4 @@
-package letcode.dev.egliloo
+package com.example.afrolore
 
 import io.flutter.embedding.android.FlutterActivity
 

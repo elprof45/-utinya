@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import '../data/models/comment_model.dart';
 import '../data/providers/mock_data_provider.dart';
-import '../../../lib/app/theme/theme/app_colors.dart';
+import 'package:egliloo/app/theme/theme/app_colors.dart';
 import 'avatar_placeholder.dart';
 
 /// A draggable-feeling bottom sheet that lists comments for a piece of

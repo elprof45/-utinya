@@ -1,35 +1,6 @@
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="letcode.dev.egliloo">
-    
-     <!-- Réseau -->
-    <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
-
-    <!-- Audio & Stockage (Photos/Téléchargements) -->
-    <uses-permission android:name="android.permission.RECORD_AUDIO" />
-    <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
-
-    <!-- Compatibilité stockage selon version Android -->
-    <!-- Permissions granulaires pour Android 13+ (API >= 33) -->
-    <uses-permission android:name="android.permission.READ_MEDIA_AUDIO" />
-    <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" />
-    <uses-permission android:name="android.permission.READ_MEDIA_VIDEO" />
-
-    <!-- Permissions pour le stockage (compatibilité ascendante) -->
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" android:maxSdkVersion="32" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" android:maxSdkVersion="29" />
-
-    <!-- Permissions pour les services audio et notifications (Android 13+) -->
-    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
-    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_MEDIA_PLAYBACK" />
-    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
-    
-    <!-- Maintien de la lecture en arrière-plan -->
-    <uses-permission android:name="android.permission.WAKE_LOCK"/>
-
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
     <application
-        android:label="egliloo"
+        android:label="afrolore"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity

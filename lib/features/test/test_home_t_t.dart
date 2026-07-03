@@ -237,7 +237,7 @@ class _HomeScreenState extends State<HomeScreen> {
           final item = _categories[index];
           return _CategoryChip(label: item.label, selected: item.selected);
         },
-        separatorBuilder: (_, __) => const SizedBox(width: 14),
+        separatorBuilder: (_, _) => const SizedBox(width: 14),
         itemCount: _categories.length,
       ),
     );
@@ -250,7 +250,7 @@ class _HomeScreenState extends State<HomeScreen> {
         padding: const EdgeInsets.symmetric(horizontal: 16),
         scrollDirection: Axis.horizontal,
         itemCount: _recentVideos.length,
-        separatorBuilder: (_, __) => const SizedBox(width: 14),
+        separatorBuilder: (_, _) => const SizedBox(width: 14),
         itemBuilder: (context, index) {
           final video = _recentVideos[index];
           return SizedBox(
@@ -278,7 +278,7 @@ class _HomeScreenState extends State<HomeScreen> {
         padding: const EdgeInsets.symmetric(horizontal: 16),
         scrollDirection: Axis.horizontal,
         itemCount: _recentVideos.length,
-        separatorBuilder: (_, __) => const SizedBox(width: 14),
+        separatorBuilder: (_, _) => const SizedBox(width: 14),
         itemBuilder: (context, index) {
           final video = _recentVideos[index];
           return SizedBox(
@@ -390,7 +390,9 @@ class VideoDetailPage extends StatelessWidget {
                               fit: BoxFit.cover,
                             ),
                           ),
-                          Container(color: Colors.black.withOpacity(0.70)),
+                          Container(
+                            color: Colors.black.withValues(alpha: 0.70),
+                          ),
                           const Center(
                             child: Icon(
                               Icons.play_arrow_rounded,
@@ -585,7 +587,7 @@ class DownloadSheet extends StatelessWidget {
               child: ListView.separated(
                 padding: const EdgeInsets.fromLTRB(18, 10, 18, 18),
                 itemCount: qualities.length,
-                separatorBuilder: (_, __) => const SizedBox(height: 8),
+                separatorBuilder: (_, _) => const SizedBox(height: 8),
                 itemBuilder: (_, index) {
                   final q = qualities[index];
                   return _DownloadQualityTile(
@@ -714,7 +716,7 @@ class DownloadHistoryPage extends StatelessWidget {
                   return ListView.separated(
                     padding: const EdgeInsets.fromLTRB(16, 8, 16, 18),
                     itemCount: items.length,
-                    separatorBuilder: (_, __) => const SizedBox(height: 12),
+                    separatorBuilder: (_, _) => const SizedBox(height: 12),
                     itemBuilder: (_, index) {
                       final item = items[index];
                       return _DownloadHistoryTile(item: item);
@@ -1257,8 +1259,8 @@ class _DetailTopBar extends StatelessWidget {
                 shape: BoxShape.circle,
                 gradient: LinearGradient(
                   colors: [
-                    Colors.white.withOpacity(0.18),
-                    Colors.white.withOpacity(0.08),
+                    Colors.white.withValues(alpha: 0.18),
+                    Colors.white.withValues(alpha: 0.08),
                   ],
                 ),
               ),
@@ -1342,7 +1344,7 @@ class _HeroCard extends StatelessWidget {
         children: [
           Image.network(card.backgroundImage, fit: BoxFit.cover),
           Container(
-            color: card.backgroundTint.withOpacity(card.overlayOpacity),
+            color: card.backgroundTint.withValues(alpha: card.overlayOpacity),
           ),
           Container(
             decoration: BoxDecoration(
@@ -1350,10 +1352,10 @@ class _HeroCard extends StatelessWidget {
                 begin: Alignment.topCenter,
                 end: Alignment.bottomCenter,
                 colors: [
-                  Colors.black.withOpacity(0.10),
+                  Colors.black.withValues(alpha: 0.10),
                   Colors.transparent,
-                  Colors.black.withOpacity(0.28),
-                  Colors.black.withOpacity(0.58),
+                  Colors.black.withValues(alpha: 0.28),
+                  Colors.black.withValues(alpha: 0.58),
                 ],
                 stops: const [0.0, 0.28, 0.70, 1.0],
               ),
@@ -1388,7 +1390,7 @@ class _HeroCard extends StatelessWidget {
                     fontSize: 18,
                     height: 1.18,
                     fontWeight: FontWeight.w400,
-                    color: Colors.white.withOpacity(0.95),
+                    color: Colors.white.withValues(alpha: 0.95),
                   ),
                 ),
                 const SizedBox(height: 10),
@@ -1431,7 +1433,7 @@ class _HeroCard extends StatelessWidget {
                       decoration: BoxDecoration(
                         color: i == 5
                             ? Colors.white
-                            : Colors.white.withOpacity(0.28),
+                            : Colors.white.withValues(alpha: 0.28),
                         borderRadius: BorderRadius.circular(99),
                       ),
                     ),
@@ -1460,9 +1462,9 @@ class _Chip extends StatelessWidget {
         child: Container(
           padding: const EdgeInsets.symmetric(horizontal: 22, vertical: 14),
           decoration: BoxDecoration(
-            color: color.withOpacity(0.34),
+            color: color.withValues(alpha: 0.34),
             borderRadius: BorderRadius.circular(999),
-            border: Border.all(color: Colors.white.withOpacity(0.08)),
+            border: Border.all(color: Colors.white.withValues(alpha: 0.08)),
           ),
           child: Text(
             label.toUpperCase(),
@@ -1577,9 +1579,9 @@ class _VideoStripCard extends StatelessWidget {
                 begin: Alignment.topCenter,
                 end: Alignment.bottomCenter,
                 colors: [
-                  Colors.black.withOpacity(0.05),
-                  Colors.black.withOpacity(0.12),
-                  Colors.black.withOpacity(0.50),
+                  Colors.black.withValues(alpha: 0.05),
+                  Colors.black.withValues(alpha: 0.12),
+                  Colors.black.withValues(alpha: 0.50),
                 ],
               ),
             ),
@@ -1606,7 +1608,7 @@ class _VideoStripCard extends StatelessWidget {
             child: Container(
               padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
               decoration: BoxDecoration(
-                color: Colors.black.withOpacity(0.55),
+                color: Colors.black.withValues(alpha: 0.55),
                 borderRadius: BorderRadius.circular(12),
               ),
               child: Text(
@@ -1650,8 +1652,8 @@ class _RecentVideoCard extends StatelessWidget {
                     end: Alignment.bottomCenter,
                     colors: [
                       Colors.transparent,
-                      Colors.black.withOpacity(0.12),
-                      Colors.black.withOpacity(0.45),
+                      Colors.black.withValues(alpha: 0.12),
+                      Colors.black.withValues(alpha: 0.45),
                     ],
                   ),
                 ),
@@ -1681,7 +1683,7 @@ class _RecentVideoCard extends StatelessWidget {
                     vertical: 7,
                   ),
                   decoration: BoxDecoration(
-                    color: Colors.black.withOpacity(0.55),
+                    color: Colors.black.withValues(alpha: 0.55),
                     borderRadius: BorderRadius.circular(12),
                   ),
                   child: Text(
@@ -1741,9 +1743,9 @@ class _SmallTag extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
       decoration: BoxDecoration(
-        color: Colors.black.withOpacity(0.26),
+        color: Colors.black.withValues(alpha: 0.26),
         borderRadius: BorderRadius.circular(999),
-        border: Border.all(color: Colors.white.withOpacity(0.10)),
+        border: Border.all(color: Colors.white.withValues(alpha: 0.10)),
       ),
       child: Text(
         text,
@@ -1909,7 +1911,7 @@ class _CommentBottomSheetState extends State<CommentBottomSheet> {
                       onSelected: (_) => manager.setSort(sort),
                     );
                   },
-                  separatorBuilder: (_, __) => const SizedBox(width: 10),
+                  separatorBuilder: (_, _) => const SizedBox(width: 10),
                   itemCount: CommentSort.values.length,
                 ),
               ),
@@ -1934,7 +1936,7 @@ class _CommentBottomSheetState extends State<CommentBottomSheet> {
                   controller: scrollController,
                   padding: const EdgeInsets.fromLTRB(18, 6, 18, 18),
                   itemCount: manager.visibleComments.length,
-                  separatorBuilder: (_, __) => const SizedBox(height: 12),
+                  separatorBuilder: (_, _) => const SizedBox(height: 12),
                   itemBuilder: (_, index) {
                     final comment = manager.visibleComments[index];
                     return CommentTile(
@@ -2416,7 +2418,9 @@ class _BottomNav extends StatelessWidget {
     return Container(
       decoration: BoxDecoration(
         color: const Color(0xFF111114),
-        border: Border(top: BorderSide(color: Colors.white.withOpacity(0.04))),
+        border: Border(
+          top: BorderSide(color: Colors.white.withValues(alpha: 0.04)),
+        ),
       ),
       child: SafeArea(
         top: false,
@@ -2517,7 +2521,7 @@ class _NavItem extends StatelessWidget {
           Text(
             label,
             style: TextStyle(
-              color: color.withOpacity(active ? 1 : 0.92),
+              color: color.withValues(alpha: active ? 1 : 0.92),
               fontSize: 13,
               fontWeight: FontWeight.w400,
             ),
