@@ -1,13 +1,13 @@
 // lib/features/home/widgets/build_featured_carousel.dart
-import 'package:carousel_slider/carousel_slider.dart';
 import 'package:egliloo/app/routes/app_pages.dart';
 import 'package:egliloo/app/theme/app_colors.dart';
 import 'package:egliloo/app/theme/app_theme.dart';
 import 'package:egliloo/app/theme/app_typography.dart';
 import 'package:egliloo/app/widgets/safe_cached_network_image.dart';
 import 'package:egliloo/data/models/content_model.dart';
-import 'package:egliloo/features/home/controllers/home_controller.dart'; // <-- AJOUT DE L'IMPORT
+import 'package:egliloo/features/home/controllers/home_controller.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_carousel_widget/flutter_carousel_widget.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
@@ -19,13 +19,17 @@ class BuildFeaturedCarousel extends StatelessWidget {
     final controller = Get.find<HomeController>();
 
     return Obx(
-      () => CarouselSlider(
-        options: CarouselOptions(
-          height: 300.h,
-          viewportFraction: 0.88,
-          enlargeCenterPage: true,
+      () => FlutterCarousel(
+        options: FlutterCarouselOptions(
+          height: 375.h,
           autoPlay: true,
           autoPlayInterval: const Duration(seconds: 5),
+          aspectRatio: 16 / 9,
+          enableInfiniteScroll: true,
+          floatingIndicator: true,
+          viewportFraction: 1.0,
+          enlargeCenterPage: false,
+          showIndicator: false,
         ),
         items: controller.featuredContent
             .map((content) => _FeaturedCard(content: content))
@@ -43,16 +47,16 @@ class _FeaturedCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
+    return InkWell(
       onTap: () => Get.toNamed(Routes.detail, arguments: content),
       child: Container(
-        margin: EdgeInsets.symmetric(vertical: 8.h),
+        margin: EdgeInsets.zero,
         decoration: BoxDecoration(
-          borderRadius: AppRadius.lgAll,
-          boxShadow: AppElevation.lg,
+          borderRadius: AppRadius.smAll,
+          boxShadow: AppElevation.glow,
         ),
         child: ClipRRect(
-          borderRadius: AppRadius.lgAll,
+          // borderRadius: AppRadius.lgAll,
           child: Stack(
             fit: StackFit.expand,
             children: [
@@ -62,8 +66,8 @@ class _FeaturedCard extends StatelessWidget {
                 cacheSize: 400, // Sécurise la RAM à hauteur du Carrousel
               ),
               // Gradient overlay
-              const DecoratedBox(
-                decoration: BoxDecoration(gradient: AppColors.heroGradient),
+              DecoratedBox(
+                decoration: BoxDecoration(gradient: AppColors.heroGradient1),
               ),
               // Content info
               Positioned(

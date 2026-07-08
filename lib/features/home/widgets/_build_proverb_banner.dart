@@ -17,15 +17,11 @@ class BuildProverbBanner extends StatelessWidget {
   void _shareProverb(Map<String, String?> proverb) {
     final text = proverb['text'];
     final origin = proverb['origin'];
-
     if (text == null || text.isEmpty) return;
-
     HapticFeedback.mediumImpact(); // Retour haptique premium au clic
-
     final String shareMessage = origin != null && origin.isNotEmpty
         ? '« $text »\n—$origin\n\nDécouvrez plus sur AfriBook.'
         : '« $text »\n\nDécouvrez plus sur AfriBook.';
-
     SharePlus.instance.share(
       ShareParams(text: "📖 Proverbe du jour\n\n$shareMessage"),
     );
@@ -42,7 +38,7 @@ class BuildProverbBanner extends StatelessWidget {
       final origin = proverb['origin'];
 
       return Container(
-        margin: EdgeInsets.symmetric(horizontal: AppSpacing.base),
+        margin: EdgeInsets.symmetric(horizontal: AppSpacing.sm),
         decoration: BoxDecoration(
           gradient: AppColors.goldGradient,
           borderRadius: AppRadius.baseAll,

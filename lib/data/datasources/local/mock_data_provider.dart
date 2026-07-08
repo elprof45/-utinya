@@ -1,10 +1,9 @@
 import 'dart:math';
+import 'package:egliloo/data/data/models/category_model.dart';
+import 'package:egliloo/data/data/models/comment_model.dart';
+import 'package:egliloo/data/data/models/content_model.dart';
+import 'package:egliloo/data/data/models/history_entry_model.dart';
 import 'package:flutter/material.dart';
-
-import '../models/category_model.dart';
-import '../models/comment_model.dart';
-import '../models/content_model.dart';
-import '../models/history_entry_model.dart';
 
 class MockDataProvider {
   MockDataProvider._();
@@ -24,16 +23,66 @@ class MockDataProvider {
   // Categories
   // ---------------------------------------------------------------------
   static final List<CategoryModel> categories = [
-    CategoryModel(id: 'west_african_tales', name: 'West African Tales', icon: Icons.auto_stories_rounded, colorIndex: 0),
-    CategoryModel(id: 'zulu_heritage', name: 'Zulu Heritage', icon: Icons.format_quote_rounded, colorIndex: 1),
-    CategoryModel(id: 'sahel_history', name: 'Sahel History', icon: Icons.account_balance_rounded, colorIndex: 2),
-    CategoryModel(id: 'yoruba_mythology', name: 'Yoruba Mythology', icon: Icons.auto_awesome_rounded, colorIndex: 3),
-    CategoryModel(id: 'swahili_coast', name: 'Swahili Coast Trade', icon: Icons.sailing_rounded, colorIndex: 4),
-    CategoryModel(id: 'ethiopian_heritage', name: 'Ethiopian Heritage', icon: Icons.terrain_rounded, colorIndex: 5),
-    CategoryModel(id: 'southern_african_art', name: 'Southern African Art', icon: Icons.brush_rounded, colorIndex: 0),
-    CategoryModel(id: 'ashanti_kingdom', name: 'Ashanti Kingdom', icon: Icons.diamond_rounded, colorIndex: 1),
-    CategoryModel(id: 'east_african_legends', name: 'East African Legends', icon: Icons.landscape_rounded, colorIndex: 2),
-    CategoryModel(id: 'griot_songs', name: 'Griot Songs & Poetry', icon: Icons.music_note_rounded, colorIndex: 3),
+    CategoryModel(
+      id: 'west_african_tales',
+      name: 'West African Tales',
+      icon: Icons.auto_stories_rounded,
+      colorIndex: 0,
+    ),
+    CategoryModel(
+      id: 'zulu_heritage',
+      name: 'Zulu Heritage',
+      icon: Icons.format_quote_rounded,
+      colorIndex: 1,
+    ),
+    CategoryModel(
+      id: 'sahel_history',
+      name: 'Sahel History',
+      icon: Icons.account_balance_rounded,
+      colorIndex: 2,
+    ),
+    CategoryModel(
+      id: 'yoruba_mythology',
+      name: 'Yoruba Mythology',
+      icon: Icons.auto_awesome_rounded,
+      colorIndex: 3,
+    ),
+    CategoryModel(
+      id: 'swahili_coast',
+      name: 'Swahili Coast Trade',
+      icon: Icons.sailing_rounded,
+      colorIndex: 4,
+    ),
+    CategoryModel(
+      id: 'ethiopian_heritage',
+      name: 'Ethiopian Heritage',
+      icon: Icons.terrain_rounded,
+      colorIndex: 5,
+    ),
+    CategoryModel(
+      id: 'southern_african_art',
+      name: 'Southern African Art',
+      icon: Icons.brush_rounded,
+      colorIndex: 0,
+    ),
+    CategoryModel(
+      id: 'ashanti_kingdom',
+      name: 'Ashanti Kingdom',
+      icon: Icons.diamond_rounded,
+      colorIndex: 1,
+    ),
+    CategoryModel(
+      id: 'east_african_legends',
+      name: 'East African Legends',
+      icon: Icons.landscape_rounded,
+      colorIndex: 2,
+    ),
+    CategoryModel(
+      id: 'griot_songs',
+      name: 'Griot Songs & Poetry',
+      icon: Icons.music_note_rounded,
+      colorIndex: 3,
+    ),
   ];
 
   // ---------------------------------------------------------------------
@@ -44,7 +93,8 @@ class MockDataProvider {
     name: 'Griot Awa Touré',
     role: 'Narrator · Griot',
     avatarColorIndex: 0,
-    bio: 'Master storyteller from Dakar, keeper of Wolof oral traditions for over twenty years.',
+    bio:
+        'Master storyteller from Dakar, keeper of Wolof oral traditions for over twenty years.',
     followers: 12400,
   );
   static final AuthorModel _kwame = AuthorModel(
@@ -52,7 +102,8 @@ class MockDataProvider {
     name: 'Prof. Kwame Asante',
     role: 'Historian · Author',
     avatarColorIndex: 1,
-    bio: 'Historian specializing in West African empires and Sahelian trade routes.',
+    bio:
+        'Historian specializing in West African empires and Sahelian trade routes.',
     followers: 8900,
   );
   static final AuthorModel _nomvula = AuthorModel(
@@ -545,17 +596,66 @@ Many of these manuscripts were passed down within families for centuries, hidden
   // ---------------------------------------------------------------------
   static final Map<String, List<CommentModel>> _comments = {
     'c1': [
-      CommentModel(id: 'cm1', authorName: 'Kofi B.', avatarColorIndex: 1, text: 'My grandmother used to say this exact line. Chills.', timeAgo: '1h ago', likes: 14),
-      CommentModel(id: 'cm2', authorName: 'Zainab O.', avatarColorIndex: 2, text: 'Sharing this with my kids tonight.', timeAgo: '3h ago', likes: 9),
-      CommentModel(id: 'cm3', authorName: 'Thabo M.', avatarColorIndex: 4, text: 'The baobab imagery is perfect for this one.', timeAgo: '5h ago', likes: 5),
+      CommentModel(
+        id: 'cm1',
+        authorName: 'Kofi B.',
+        avatarColorIndex: 1,
+        text: 'My grandmother used to say this exact line. Chills.',
+        timeAgo: '1h ago',
+        likes: 14,
+      ),
+      CommentModel(
+        id: 'cm2',
+        authorName: 'Zainab O.',
+        avatarColorIndex: 2,
+        text: 'Sharing this with my kids tonight.',
+        timeAgo: '3h ago',
+        likes: 9,
+      ),
+      CommentModel(
+        id: 'cm3',
+        authorName: 'Thabo M.',
+        avatarColorIndex: 4,
+        text: 'The baobab imagery is perfect for this one.',
+        timeAgo: '5h ago',
+        likes: 5,
+      ),
     ],
     'c2': [
-      CommentModel(id: 'cm4', authorName: 'Aïssatou D.', avatarColorIndex: 0, text: 'Ibrahim\'s narration gives me goosebumps every time.', timeAgo: '2h ago', likes: 22),
-      CommentModel(id: 'cm5', authorName: 'Mensah K.', avatarColorIndex: 3, text: 'Would love a full series on the Mali Empire.', timeAgo: '1 day ago', likes: 17),
+      CommentModel(
+        id: 'cm4',
+        authorName: 'Aïssatou D.',
+        avatarColorIndex: 0,
+        text: 'Ibrahim\'s narration gives me goosebumps every time.',
+        timeAgo: '2h ago',
+        likes: 22,
+      ),
+      CommentModel(
+        id: 'cm5',
+        authorName: 'Mensah K.',
+        avatarColorIndex: 3,
+        text: 'Would love a full series on the Mali Empire.',
+        timeAgo: '1 day ago',
+        likes: 17,
+      ),
     ],
     'c12': [
-      CommentModel(id: 'cm6', authorName: 'Fatou S.', avatarColorIndex: 5, text: 'The pause after each name is so powerful.', timeAgo: '40m ago', likes: 11),
-      CommentModel(id: 'cm7', authorName: 'Jelani R.', avatarColorIndex: 2, text: 'This belongs in a museum exhibit.', timeAgo: '2h ago', likes: 8),
+      CommentModel(
+        id: 'cm6',
+        authorName: 'Fatou S.',
+        avatarColorIndex: 5,
+        text: 'The pause after each name is so powerful.',
+        timeAgo: '40m ago',
+        likes: 11,
+      ),
+      CommentModel(
+        id: 'cm7',
+        authorName: 'Jelani R.',
+        avatarColorIndex: 2,
+        text: 'This belongs in a museum exhibit.',
+        timeAgo: '2h ago',
+        likes: 8,
+      ),
     ],
   };
 
@@ -578,15 +678,57 @@ Many of these manuscripts were passed down within families for centuries, hidden
   // History entries
   // ---------------------------------------------------------------------
   static final List<HistoryEntryModel> historyEntries = [
-    HistoryEntryModel(contentId: 'c2', type: HistoryType.played, timestamp: '2h ago', progress: 0.65),
-    HistoryEntryModel(contentId: 'c12', type: HistoryType.played, timestamp: 'Yesterday', progress: 1.0),
-    HistoryEntryModel(contentId: 'c11', type: HistoryType.played, timestamp: '3 days ago', progress: 0.3),
-    HistoryEntryModel(contentId: 'c9', type: HistoryType.read, timestamp: 'Yesterday', progress: 1.0),
-    HistoryEntryModel(contentId: 'c7', type: HistoryType.read, timestamp: '4 days ago', progress: 0.8),
-    HistoryEntryModel(contentId: 'c14', type: HistoryType.read, timestamp: '1 week ago', progress: 1.0),
-    HistoryEntryModel(contentId: 'c1', type: HistoryType.bookmarked, timestamp: 'Saved 3 days ago'),
-    HistoryEntryModel(contentId: 'c4', type: HistoryType.bookmarked, timestamp: 'Saved 5 days ago'),
-    HistoryEntryModel(contentId: 'c13', type: HistoryType.bookmarked, timestamp: 'Saved 1 week ago'),
+    HistoryEntryModel(
+      contentId: 'c2',
+      type: HistoryType.played,
+      timestamp: '2h ago',
+      progress: 0.65,
+    ),
+    HistoryEntryModel(
+      contentId: 'c12',
+      type: HistoryType.played,
+      timestamp: 'Yesterday',
+      progress: 1.0,
+    ),
+    HistoryEntryModel(
+      contentId: 'c11',
+      type: HistoryType.played,
+      timestamp: '3 days ago',
+      progress: 0.3,
+    ),
+    HistoryEntryModel(
+      contentId: 'c9',
+      type: HistoryType.read,
+      timestamp: 'Yesterday',
+      progress: 1.0,
+    ),
+    HistoryEntryModel(
+      contentId: 'c7',
+      type: HistoryType.read,
+      timestamp: '4 days ago',
+      progress: 0.8,
+    ),
+    HistoryEntryModel(
+      contentId: 'c14',
+      type: HistoryType.read,
+      timestamp: '1 week ago',
+      progress: 1.0,
+    ),
+    HistoryEntryModel(
+      contentId: 'c1',
+      type: HistoryType.bookmarked,
+      timestamp: 'Saved 3 days ago',
+    ),
+    HistoryEntryModel(
+      contentId: 'c4',
+      type: HistoryType.bookmarked,
+      timestamp: 'Saved 5 days ago',
+    ),
+    HistoryEntryModel(
+      contentId: 'c13',
+      type: HistoryType.bookmarked,
+      timestamp: 'Saved 1 week ago',
+    ),
   ];
 
   // ---------------------------------------------------------------------

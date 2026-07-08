@@ -1,6 +1,6 @@
 import 'package:egliloo/app/theme/theme/app_colors.dart';
 import 'package:egliloo/data/data/models/comment_model.dart' show CommentModel;
-import 'package:egliloo/data/data/providers/mock_data_provider.dart';
+import 'package:egliloo/data/datasources/local/mock_data_provider.dart';
 import 'package:flutter/material.dart';
 import 'avatar_placeholder.dart';
 

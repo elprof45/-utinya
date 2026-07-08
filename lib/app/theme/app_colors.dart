@@ -95,6 +95,17 @@ abstract class AppColors {
     colors: [Colors.transparent, Color(0xCC0C0C0C)],
   );
 
+  static LinearGradient heroGradient1 = LinearGradient(
+    begin: Alignment.topCenter,
+    end: Alignment.bottomCenter,
+    colors: [
+      Colors.black.withValues(alpha: 0.10),
+      Colors.transparent,
+      Colors.black.withValues(alpha: 0.28),
+      Colors.black.withValues(alpha: 0.58),
+    ],
+    stops: const [0.0, 0.28, 0.70, 1.0],
+  );
   // ─── DIVIDERS & BORDERS ───────────────────────────────────────────────────
   static const Color dividerDark = Color(0xFF2A2A2A);
   static const Color dividerLight = Color(0xFFE0D5C8);

@@ -10,31 +10,6 @@ import 'package:egliloo/app/theme/app_typography.dart';
 
 class ExploreView extends GetView<ExploreController> {
   const ExploreView({super.key});
-
-  Color _parseHexColor(String value) {
-    var colorString = value.trim().toUpperCase();
-
-    // Enlève les préfixes possibles
-    colorString = colorString.replaceAll('#', '');
-    colorString = colorString.replaceAll('0X', '');
-
-    // Si on a seulement RRGGBB, on ajoute l'alpha FF
-    if (colorString.length == 6) {
-      colorString = 'FF$colorString';
-    }
-
-    // Sécurité de base
-    if (colorString.length != 8) {
-      return Colors.grey;
-    }
-
-    try {
-      return Color(int.parse(colorString, radix: 16));
-    } catch (_) {
-      return Colors.grey;
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     if (!Get.isRegistered<ExploreController>()) {
@@ -48,12 +23,28 @@ class ExploreView extends GetView<ExploreController> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Padding(
-              padding: EdgeInsets.all(AppSpacing.base),
-              child: Text(
-                'Explorer',
-                style: AppTypography.headlineMedium.copyWith(
-                  color: AppColors.textPrimaryDark,
-                ),
+              padding: EdgeInsets.symmetric(
+                horizontal: AppSpacing.base,
+                vertical: AppSpacing.sm,
+              ),
+              child: Row(
+                // mainAxisAlignment: .spaceBetween,
+                children: [
+                  Text(
+                    'Explorer',
+                    style: AppTypography.headlineMedium.copyWith(
+                      color: AppColors.textPrimaryDark,
+                    ),
+                  ),
+                  const Spacer(),
+                  IconButton(
+                    onPressed: () {},
+                    icon: Icon(
+                      Icons.tune_rounded,
+                      color: AppColors.textSecondaryDark,
+                    ),
+                  ),
+                ],
               ),
             ),
             // Region filter
@@ -89,12 +80,14 @@ class ExploreView extends GetView<ExploreController> {
                                 : AppColors.borderDark,
                           ),
                         ),
-                        child: Text(
-                          r,
-                          style: AppTypography.labelSmall.copyWith(
-                            color: sel
-                                ? Colors.white
-                                : AppColors.textSecondaryDark,
+                        child: Center(
+                          child: Text(
+                            r,
+                            style: AppTypography.labelSmall.copyWith(
+                              color: sel
+                                  ? Colors.white
+                                  : AppColors.textSecondaryDark,
+                            ),
                           ),
                         ),
                       ),
@@ -103,80 +96,16 @@ class ExploreView extends GetView<ExploreController> {
                 ),
               );
             }),
-            SizedBox(height: AppSpacing.base),
-
-            // Categories grid
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: AppSpacing.base),
-              child: Text(
-                'Catégories',
-                style: AppTypography.titleLarge.copyWith(
-                  color: AppColors.textPrimaryDark,
-                ),
-              ),
-            ),
-            SizedBox(height: AppSpacing.sm),
-            Obx(() {
-              final categories = controller.categories;
-              return SizedBox(
-                height: 110.h,
-                child: ListView.builder(
-                  scrollDirection: Axis.horizontal,
-                  padding: EdgeInsets.symmetric(horizontal: AppSpacing.base),
-                  itemCount: categories.length,
-                  itemBuilder: (_, i) {
-                    final cat = categories[i];
-                    final catColor = _parseHexColor(cat.color);
-
-                    return Container(
-                      width: 90.w,
-                      margin: EdgeInsets.only(right: AppSpacing.sm),
-                      decoration: BoxDecoration(
-                        color: catColor.withAlpha((0.15 * 255).round()),
-                        borderRadius: AppRadius.mdAll,
-                        border: Border.all(
-                          color: catColor.withAlpha((0.3 * 255).round()),
-                        ),
-                      ),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text(cat.icon, style: TextStyle(fontSize: 28.sp)),
-                          SizedBox(height: 4.h),
-                          Text(
-                            cat.name,
-                            style: AppTypography.caption.copyWith(
-                              color: AppColors.textSecondaryDark,
-                            ),
-                            textAlign: TextAlign.center,
-                            maxLines: 2,
-                          ),
-                          Text(
-                            '${cat.contentCount}',
-                            style: AppTypography.caption.copyWith(
-                              color: AppColors.textTertiaryDark,
-                            ),
-                          ),
-                        ],
-                      ),
-                    );
-                  },
-                ),
-              );
-            }),
-
-            SizedBox(height: AppSpacing.base),
-
             // Content list
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: AppSpacing.base),
-              child: Text(
-                'Contenus',
-                style: AppTypography.titleLarge.copyWith(
-                  color: AppColors.textPrimaryDark,
-                ),
-              ),
-            ),
+            // Padding(
+            //   padding: EdgeInsets.symmetric(horizontal: AppSpacing.base),
+            //   child: Text(
+            //     'Contenus',
+            //     style: AppTypography.titleLarge.copyWith(
+            //       color: AppColors.textPrimaryDark,
+            //     ),
+            //   ),
+            // ),
             SizedBox(height: AppSpacing.sm),
             Expanded(
               child: Obx(() {

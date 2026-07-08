@@ -11,22 +11,22 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'app/routes/app_pages.dart';
 import 'app/theme/app_theme.dart';
 
-// Future<void> main() async {
-//   WidgetsFlutterBinding.ensureInitialized();
-//   await GetStorage.init();
-//   SystemChrome.setSystemUIOverlayStyle(
-//     const SystemUiOverlayStyle(
-//       statusBarColor: Colors.transparent,
-//       statusBarIconBrightness: Brightness.light,
-//     ),
-//   );
-//   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
-//   runApp(const AfriBookApp());
-// }
-
-void main() {
-  runApp(const AfoMediaAppN3());
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await GetStorage.init();
+  SystemChrome.setSystemUIOverlayStyle(
+    const SystemUiOverlayStyle(
+      statusBarColor: Colors.transparent,
+      statusBarIconBrightness: Brightness.light,
+    ),
+  );
+  SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
+  runApp(const AfriBookApp());
 }
+
+// void main() {
+//   runApp(const AfoMediaAppN1());
+// }
 
 class AfriBookApp extends StatelessWidget {
   const AfriBookApp({super.key});

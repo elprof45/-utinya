@@ -23,30 +23,29 @@ class CategoryModel {
     this.parentId,
   });
 
-  factory CategoryModel.fromJson(Map<String, dynamic> json) =>
-      CategoryModel(
-        id: json['id'] as String,
-        name: json['name'] as String,
-        nameEn: json['nameEn'] as String?,
-        description: json['description'] as String?,
-        icon: json['icon'] as String,
-        color: json['color'] as String,
-        contentCount: json['contentCount'] as int? ?? 0,
-        isFeatured: json['isFeatured'] as bool? ?? false,
-        parentId: json['parentId'] as String?,
-      );
+  factory CategoryModel.fromJson(Map<String, dynamic> json) => CategoryModel(
+    id: json['id'] as String,
+    name: json['name'] as String,
+    nameEn: json['nameEn'] as String?,
+    description: json['description'] as String?,
+    icon: json['icon'] as String,
+    color: json['color'] as String,
+    contentCount: json['contentCount'] as int? ?? 0,
+    isFeatured: json['isFeatured'] as bool? ?? false,
+    parentId: json['parentId'] as String?,
+  );
 
   Map<String, dynamic> toJson() => {
-        'id': id,
-        'name': name,
-        'nameEn': nameEn,
-        'description': description,
-        'icon': icon,
-        'color': color,
-        'contentCount': contentCount,
-        'isFeatured': isFeatured,
-        'parentId': parentId,
-      };
+    'id': id,
+    'name': name,
+    'nameEn': nameEn,
+    'description': description,
+    'icon': icon,
+    'color': color,
+    'contentCount': contentCount,
+    'isFeatured': isFeatured,
+    'parentId': parentId,
+  };
 }
 
 // ─── COMMENT ────────────────────────────────────────────────────────────────
@@ -77,37 +76,37 @@ class CommentModel {
     required this.createdAt,
   });
 
-  factory CommentModel.fromJson(Map<String, dynamic> json) =>
-      CommentModel(
-        id: json['id'] as String,
-        contentId: json['contentId'] as String,
-        userId: json['userId'] as String,
-        userName: json['userName'] as String,
-        userAvatar: json['userAvatar'] as String?,
-        text: json['text'] as String,
-        likesCount: json['likesCount'] as int? ?? 0,
-        isLiked: json['isLiked'] as bool? ?? false,
-        parentId: json['parentId'] as String?,
-        replies: (json['replies'] as List<dynamic>?)
-                ?.map((r) => CommentModel.fromJson(r))
-                .toList() ??
-            [],
-        createdAt: DateTime.parse(json['createdAt'] as String),
-      );
+  factory CommentModel.fromJson(Map<String, dynamic> json) => CommentModel(
+    id: json['id'] as String,
+    contentId: json['contentId'] as String,
+    userId: json['userId'] as String,
+    userName: json['userName'] as String,
+    userAvatar: json['userAvatar'] as String?,
+    text: json['text'] as String,
+    likesCount: json['likesCount'] as int? ?? 0,
+    isLiked: json['isLiked'] as bool? ?? false,
+    parentId: json['parentId'] as String?,
+    replies:
+        (json['replies'] as List<dynamic>?)
+            ?.map((r) => CommentModel.fromJson(r))
+            .toList() ??
+        [],
+    createdAt: DateTime.parse(json['createdAt'] as String),
+  );
 
   Map<String, dynamic> toJson() => {
-        'id': id,
-        'contentId': contentId,
-        'userId': userId,
-        'userName': userName,
-        'userAvatar': userAvatar,
-        'text': text,
-        'likesCount': likesCount,
-        'isLiked': isLiked,
-        'parentId': parentId,
-        'replies': replies.map((r) => r.toJson()).toList(),
-        'createdAt': createdAt.toIso8601String(),
-      };
+    'id': id,
+    'contentId': contentId,
+    'userId': userId,
+    'userName': userName,
+    'userAvatar': userAvatar,
+    'text': text,
+    'likesCount': likesCount,
+    'isLiked': isLiked,
+    'parentId': parentId,
+    'replies': replies.map((r) => r.toJson()).toList(),
+    'createdAt': createdAt.toIso8601String(),
+  };
 }
 
 // ─── NOTIFICATION ────────────────────────────────────────────────────────────
@@ -146,8 +145,7 @@ class NotificationModel {
   factory NotificationModel.fromJson(Map<String, dynamic> json) =>
       NotificationModel(
         id: json['id'] as String,
-        type: NotificationType.values
-            .firstWhere((e) => e.name == json['type']),
+        type: NotificationType.values.firstWhere((e) => e.name == json['type']),
         title: json['title'] as String,
         body: json['body'] as String,
         imageUrl: json['imageUrl'] as String?,
@@ -157,13 +155,13 @@ class NotificationModel {
       );
 
   Map<String, dynamic> toJson() => {
-        'id': id,
-        'type': type.name,
-        'title': title,
-        'body': body,
-        'imageUrl': imageUrl,
-        'actionUrl': actionUrl,
-        'isRead': isRead,
-        'createdAt': createdAt.toIso8601String(),
-      };
+    'id': id,
+    'type': type.name,
+    'title': title,
+    'body': body,
+    'imageUrl': imageUrl,
+    'actionUrl': actionUrl,
+    'isRead': isRead,
+    'createdAt': createdAt.toIso8601String(),
+  };
 }

@@ -211,8 +211,11 @@ class DetailView extends GetView<DetailController> {
             children: [
               _Tag(label: content.typeLabel, color: AppColors.primary),
               if (content.country != null)
-                _Tag(label: '🌍 ${content.country!}'),
-              _Tag(label: content.language.toUpperCase()),
+                _Tag(label: '🌍 ${content.country!}', color: AppColors.info),
+              _Tag(
+                label: content.language.toUpperCase(),
+                color: AppColors.info,
+              ),
             ],
           ),
           SizedBox(height: AppSpacing.sm),
@@ -291,32 +294,58 @@ class DetailView extends GetView<DetailController> {
           // Stats row
           Row(
             children: [
-              _Stat(
-                icon: Icons.visibility_outlined,
-                value: _formatNumber(content.viewsCount),
-              ),
-              SizedBox(width: AppSpacing.base),
-              _Stat(
-                icon: Icons.favorite_outline_rounded,
-                value: _formatNumber(content.likesCount),
-              ),
-              SizedBox(width: AppSpacing.base),
-              _Stat(
-                icon: Icons.star_rounded,
-                value: content.rating.toStringAsFixed(1),
-                color: AppColors.warning,
-              ),
-              SizedBox(width: AppSpacing.base),
-              if (content.readingTimeMinutes != null)
-                _Stat(
-                  icon: Icons.schedule_rounded,
-                  value: '${content.readingTimeMinutes}min',
+              // _Stat(
+              //   icon: Icons.visibility_outlined,
+              //   value: _formatNumber(content.viewsCount),
+              // ),
+              // SizedBox(width: AppSpacing.base),
+              // _Stat(
+              //   icon: Icons.favorite_outline_rounded,
+              //   value: _formatNumber(content.likesCount),
+              // ),
+              // SizedBox(width: AppSpacing.base),
+              // _Stat(
+              //   icon: Icons.star_rounded,
+              //   value: content.rating.toStringAsFixed(1),
+              //   color: AppColors.warning,
+              // ),
+              // SizedBox(width: AppSpacing.base),
+
+              // if (content.readingTimeMinutes != null)
+              //   _Stat(
+              //     icon: Icons.schedule_rounded,
+              //     value: '${content.readingTimeMinutes}min',
+              //   ),
+              // if (content.formattedDuration.isNotEmpty)
+              //   _Stat(
+              //     icon: Icons.schedule_rounded,
+              //     value: content.formattedDuration,
+              //   ),
+              Obx(
+                () => _ActionBtn(
+                  icon: controller.isLiked.value
+                      ? Icons.favorite_rounded
+                      : Icons.favorite_border_rounded,
+                  label: _formatNumber(content.likesCount),
+                  color: controller.isLiked.value
+                      ? AppColors.error
+                      : AppColors.textTertiaryDark,
+                  onTap: controller.toggleLike,
+                  column: false,
                 ),
-              if (content.formattedDuration.isNotEmpty)
-                _Stat(
-                  icon: Icons.schedule_rounded,
-                  value: content.formattedDuration,
-                ),
+              ),
+              SizedBox(width: AppSpacing.base),
+              _ActionBtn(
+                icon: Icons.chat_bubble_outline_rounded,
+                label: 'Commenter',
+                onTap: () => controller.selectTab(2),
+              ),
+              SizedBox(width: AppSpacing.base),
+              _ActionBtn(
+                icon: Icons.download_outlined,
+                label: 'Télécharger',
+                onTap: () {},
+              ),
             ],
           ),
         ],
@@ -328,38 +357,7 @@ class DetailView extends GetView<DetailController> {
   Widget _buildActionBar() {
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: AppSpacing.base),
-      child: Row(
-        children: [
-          Obx(
-            () => _ActionBtn(
-              icon: controller.isLiked.value
-                  ? Icons.favorite_rounded
-                  : Icons.favorite_border_rounded,
-              label: 'J\'aime',
-              color: controller.isLiked.value
-                  ? AppColors.error
-                  : AppColors.textTertiaryDark,
-              onTap: controller.toggleLike,
-            ),
-          ),
-          SizedBox(width: AppSpacing.base),
-          _ActionBtn(
-            icon: Icons.chat_bubble_outline_rounded,
-            label: 'Commenter',
-            onTap: () => controller.selectTab(2),
-          ),
-          SizedBox(width: AppSpacing.base),
-          _ActionBtn(
-            icon: Icons.download_outlined,
-            label: 'Télécharger',
-            onTap: () {},
-          ),
-          SizedBox(width: AppSpacing.base),
-          _ActionBtn(
-            icon: Icons.share_outlined,
-            label: 'Partager',
-            onTap: () {},
-          ),
+      child: Row(children: [
         ],
       ),
     );
@@ -829,10 +827,12 @@ class _ActionBtn extends StatelessWidget {
   final String label;
   final VoidCallback onTap;
   final Color color;
+  final bool column;
 
   const _ActionBtn({
     required this.icon,
     required this.label,
+    this.column = false,
     required this.onTap,
     this.color = AppColors.textTertiaryDark,
   });
@@ -841,13 +841,27 @@ class _ActionBtn extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: onTap,
-      child: Column(
-        children: [
-          Icon(icon, color: color, size: 22.sp),
-          SizedBox(height: 2.h),
-          Text(label, style: AppTypography.caption.copyWith(color: color)),
-        ],
-      ),
+      child: column
+          ? Column(
+              children: [
+                Icon(icon, color: color, size: 22.sp),
+                SizedBox(height: 2.h),
+                Text(
+                  label,
+                  style: AppTypography.caption.copyWith(color: color),
+                ),
+              ],
+            )
+          : Row(
+              children: [
+                Icon(icon, color: color, size: 22.sp),
+                SizedBox(height: 2.h),
+                Text(
+                  label,
+                  style: AppTypography.caption.copyWith(color: color),
+                ),
+              ],
+            ),
     );
   }
 }

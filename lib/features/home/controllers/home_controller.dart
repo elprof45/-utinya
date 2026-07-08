@@ -16,6 +16,7 @@ class HomeController extends GetxController {
   final popularAuthors = <AuthorModel>[].obs;
   final continueReading = <ContentModel>[].obs;
   final todayProverb = <String, String>{}.obs;
+  final video = <ContentModel>[].obs;
 
   @override
   void onInit() {
@@ -50,5 +51,6 @@ class HomeController extends GetxController {
     isLoading.value = false;
   }
 
+  @override
   Future<void> refresh() => loadData();
 }

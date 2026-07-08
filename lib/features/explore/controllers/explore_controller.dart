@@ -17,6 +17,15 @@ class ExploreController extends GetxController {
     'Afrique de l\'Est',
     'Afrique Australe',
     'Afrique du Nord',
+    // Liste statique des genres littéraires et culturels
+    // '🌙 Contes',
+    // '📜 Histoire',
+    // '⚡ Mythes',
+    // '💬 Proverbes',
+    // '🎙️ Podcasts',
+    // '📖 Livres',
+    // '🥁 Musique',
+    // '✍️ Poésie',
   ];
 
   static const Map<String, AfricanRegion> _regionMap = {

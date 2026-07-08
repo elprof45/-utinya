@@ -1,11 +1,6 @@
-import 'dart:async';
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
-
-// void main() {
-//   runApp(const AfoMediaApp());
-// }
 
 class AfoMediaAppN1 extends StatelessWidget {
   const AfoMediaAppN1({super.key});
@@ -26,19 +21,8 @@ class AfoMediaAppN1 extends StatelessWidget {
   }
 }
 
-class HomeScreen extends StatefulWidget {
+class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
-
-  @override
-  State<HomeScreen> createState() => _HomeScreenState();
-}
-
-class _HomeScreenState extends State<HomeScreen> {
-  final PageController _pageController = PageController(viewportFraction: 1.0);
-  final ScrollController _scrollController = ScrollController();
-  Timer? _timer;
-  int _currentPage = 0;
-  int _selectedBottomIndex = 0;
 
   final List<HeroCardData> _heroCards = const [
     HeroCardData(
@@ -69,272 +53,22 @@ class _HomeScreenState extends State<HomeScreen> {
     ),
   ];
 
-  final List<CategoryChipData> _categories = const [
-    CategoryChipData(label: 'Documentaire', selected: true),
-    CategoryChipData(label: 'Reportage', selected: false),
-    CategoryChipData(label: 'Chronique', selected: false),
-  ];
-
-  final List<RecentVideoData> _recentVideos = const [
-    RecentVideoData(
-      title: 'Le robot va-t-il tuer l’homme ?',
-      duration: '54 min : 04 s',
-      tag: 'Gratuit',
-      image:
-          'https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=1200&q=80',
-      overlayLabel: 'Chronique',
-    ),
-    RecentVideoData(
-      title: 'FANON : ...',
-      duration: '42 min : 12 s',
-      tag: 'Gratuit',
-      image:
-          'https://images.unsplash.com/photo-1524504388940-b1c1722653e1?auto=format&fit=crop&w=1200&q=80',
-      overlayLabel: 'Les Immortels',
-    ),
-    RecentVideoData(
-      title: 'Afrique Forward',
-      duration: '38 min : 31 s',
-      tag: 'Premium',
-      image:
-          'https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?auto=format&fit=crop&w=1200&q=80',
-      overlayLabel: 'Parlons vrai',
-    ),
-  ];
-
-  @override
-  void initState() {
-    super.initState();
-    _timer = Timer.periodic(const Duration(seconds: 5), (timer) {
-      if (!_pageController.hasClients) return;
-      final next = (_currentPage + 1) % _heroCards.length;
-      _pageController.animateToPage(
-        next,
-        duration: const Duration(milliseconds: 450),
-        curve: Curves.easeOutCubic,
-      );
-    });
-  }
-
-  @override
-  void dispose() {
-    _timer?.cancel();
-    _pageController.dispose();
-    _scrollController.dispose();
-    super.dispose();
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
         bottom: false,
-        child: Column(
-          children: [
-            const _TopBar(),
-            Expanded(
-              child: SingleChildScrollView(
-                controller: _scrollController,
-                physics: const BouncingScrollPhysics(),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const SizedBox(height: 10),
-                    _buildHeroCarousel(context),
-                    const SizedBox(height: 18),
-                    const Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 16),
-                      child: Text(
-                        'Parcourir par catégorie',
-                        style: TextStyle(
-                          fontSize: 26,
-                          fontWeight: FontWeight.w400,
-                          letterSpacing: -0.6,
-                          height: 1.1,
-                        ),
-                      ),
-                    ),
-                    const SizedBox(height: 20),
-                    _buildCategoryChips(),
-                    const SizedBox(height: 18),
-                    _buildThumbnailStrip(context),
-                    const SizedBox(height: 18),
-                    _buildSectionHeader(
-                      icon: Icons.timer_outlined,
-                      title: 'Les vidéos les plus récentes',
-                    ),
-                    const SizedBox(height: 14),
-                    _buildRecentVideos(),
-                    const SizedBox(height: 18),
-                    _buildSectionHeader(
-                      icon: Icons.star_rounded,
-                      title: 'Les vidéos les mieux notées',
-                    ),
-                    const SizedBox(height: 120),
-                  ],
-                ),
-              ),
-            ),
-          ],
+        child: SingleChildScrollView(
+          physics: const BouncingScrollPhysics(),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              _HeroCard(card: _heroCards[0], isActive: true),
+              const SizedBox(height: 12),
+              _HeroCard(card: _heroCards[1], isActive: false),
+            ],
+          ),
         ),
-      ),
-      bottomNavigationBar: _BottomNav(
-        currentIndex: _selectedBottomIndex,
-        onChanged: (i) => setState(() => _selectedBottomIndex = i),
-      ),
-    );
-  }
-
-  Widget _buildHeroCarousel(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16),
-      child: AspectRatio(
-        aspectRatio: 0.82,
-        child: PageView.builder(
-          controller: _pageController,
-          itemCount: _heroCards.length,
-          onPageChanged: (index) => setState(() => _currentPage = index),
-          itemBuilder: (context, index) {
-            final card = _heroCards[index];
-            return _HeroCard(card: card, isActive: index == _currentPage);
-          },
-        ),
-      ),
-    );
-  }
-
-  Widget _buildCategoryChips() {
-    return SizedBox(
-      height: 56,
-      child: ListView.separated(
-        padding: const EdgeInsets.symmetric(horizontal: 16),
-        scrollDirection: Axis.horizontal,
-        itemBuilder: (context, index) {
-          final item = _categories[index];
-          return _CategoryChip(label: item.label, selected: item.selected);
-        },
-        separatorBuilder: (_, _) => const SizedBox(width: 14),
-        itemCount: _categories.length,
-      ),
-    );
-  }
-
-  Widget _buildThumbnailStrip(BuildContext context) {
-    return SizedBox(
-      height: 150,
-      child: ListView.separated(
-        padding: const EdgeInsets.symmetric(horizontal: 16),
-        scrollDirection: Axis.horizontal,
-        itemCount: _recentVideos.length,
-        separatorBuilder: (_, _) => const SizedBox(width: 14),
-        itemBuilder: (context, index) {
-          final video = _recentVideos[index];
-          return SizedBox(
-            width: MediaQuery.of(context).size.width * 0.70,
-            child: _VideoStripCard(video: video),
-          );
-        },
-      ),
-    );
-  }
-
-  Widget _buildRecentVideos() {
-    return SizedBox(
-      height: 250,
-      child: ListView.separated(
-        padding: const EdgeInsets.symmetric(horizontal: 16),
-        scrollDirection: Axis.horizontal,
-        itemCount: _recentVideos.length,
-        separatorBuilder: (_, _) => const SizedBox(width: 14),
-        itemBuilder: (context, index) {
-          final video = _recentVideos[index];
-          return SizedBox(width: 310, child: _RecentVideoCard(video: video));
-        },
-      ),
-    );
-  }
-
-  Widget _buildSectionHeader({required IconData icon, required String title}) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16),
-      child: Row(
-        children: [
-          Icon(icon, color: const Color(0xFF3DA6FF), size: 22),
-          const SizedBox(width: 10),
-          Text(
-            title,
-            style: const TextStyle(
-              fontSize: 24,
-              fontWeight: FontWeight.w400,
-              letterSpacing: -0.4,
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class _TopBar extends StatelessWidget {
-  const _TopBar();
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.fromLTRB(16, 16, 16, 14),
-      decoration: const BoxDecoration(
-        color: Color(0xFF11161B),
-        borderRadius: BorderRadius.only(
-          bottomLeft: Radius.circular(28),
-          bottomRight: Radius.circular(28),
-        ),
-      ),
-      child: Row(
-        children: [
-          const Icon(Icons.menu_rounded, color: Colors.white, size: 34),
-          const Spacer(),
-          Container(
-            height: 34,
-            padding: const EdgeInsets.symmetric(horizontal: 22),
-            decoration: BoxDecoration(
-              color: const Color(0xFF1E80C7),
-              borderRadius: BorderRadius.circular(10),
-            ),
-            alignment: Alignment.center,
-            child: const Text(
-              'AFO Média',
-              style: TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.w500,
-                color: Colors.white,
-                height: 1,
-              ),
-            ),
-          ),
-          const Spacer(),
-          const Text('🇫🇷', style: TextStyle(fontSize: 30, height: 1)),
-          const SizedBox(width: 18),
-          const Icon(Icons.search_rounded, color: Colors.white, size: 34),
-          const SizedBox(width: 18),
-          const Icon(
-            Icons.notifications_none_rounded,
-            color: Colors.white,
-            size: 36,
-          ),
-          const SizedBox(width: 14),
-          Container(
-            width: 42,
-            height: 42,
-            decoration: BoxDecoration(
-              shape: BoxShape.circle,
-              border: Border.all(color: const Color(0xFF141A20), width: 2),
-              image: const DecorationImage(
-                fit: BoxFit.cover,
-                image: NetworkImage('https://i.pravatar.cc/150?img=12'),
-              ),
-            ),
-          ),
-        ],
       ),
     );
   }
@@ -348,121 +82,143 @@ class _HeroCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ClipRRect(
-      borderRadius: BorderRadius.circular(28),
-      child: Stack(
-        fit: StackFit.expand,
-        children: [
-          Image.network(card.backgroundImage, fit: BoxFit.cover),
-          Container(
-            color: card.backgroundTint.withValues(alpha: card.overlayOpacity),
-          ),
-          Container(
-            decoration: BoxDecoration(
-              gradient: LinearGradient(
-                begin: Alignment.topCenter,
-                end: Alignment.bottomCenter,
-                colors: [
-                  Colors.black.withValues(alpha: 0.10),
-                  Colors.transparent,
-                  Colors.black.withValues(alpha: 0.28),
-                  Colors.black.withValues(alpha: 0.58),
-                ],
-                stops: const [0.0, 0.28, 0.70, 1.0],
-              ),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.fromLTRB(20, 24, 20, 18),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                _Chip(label: card.chip, color: card.chipColor),
-                const Spacer(),
-                Text(
-                  card.title,
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                  style: const TextStyle(
-                    fontSize: 24,
-                    fontWeight: FontWeight.w500,
-                    letterSpacing: -0.7,
-                    height: 1.05,
-                    color: Colors.white,
-                  ),
-                ),
-                const SizedBox(height: 14),
-                Text(
-                  card.description,
-                  maxLines: 6,
-                  overflow: TextOverflow.ellipsis,
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    fontSize: 18,
-                    height: 1.18,
-                    fontWeight: FontWeight.w400,
-                    color: Colors.white.withValues(alpha: 0.95),
-                  ),
-                ),
-                const SizedBox(height: 10),
-                const Center(
-                  child: Text(
-                    '...',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 28,
-                      height: 1,
+    final buttonWidthFactor = card.buttonWidthFactor.clamp(0.0, 1.0);
+
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 1),
+      child: AspectRatio(
+        aspectRatio: card.aspectRatio,
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(card.borderRadius),
+          child: Stack(
+            fit: StackFit.expand,
+            children: [
+              Image.network(
+                card.backgroundImage,
+                fit: BoxFit.cover,
+                errorBuilder: (_, __, ___) => const ColoredBox(
+                  color: Colors.black12,
+                  child: Center(
+                    child: Icon(
+                      Icons.broken_image_outlined,
+                      color: Colors.white54,
                     ),
                   ),
                 ),
-                const SizedBox(height: 18),
-                Align(
-                  alignment: Alignment.center,
-                  child: FractionallySizedBox(
-                    widthFactor: card.buttonWidthFactor,
-                    child: _GradientButton(label: card.buttonText),
+              ),
+              Container(
+                color: card.backgroundTint.withValues(
+                  alpha: card.overlayOpacity,
+                ),
+              ),
+              Container(
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    begin: Alignment.topCenter,
+                    end: Alignment.bottomCenter,
+                    colors: [
+                      Colors.black.withValues(alpha: 0.10),
+                      Colors.transparent,
+                      Colors.black.withValues(alpha: 0.28),
+                      Colors.black.withValues(alpha: 0.58),
+                    ],
+                    stops: const [0.0, 0.28, 0.70, 1.0],
                   ),
                 ),
-              ],
-            ),
-          ),
-          if (isActive)
-            Positioned(
-              bottom: 18,
-              left: 0,
-              right: 0,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  ...List.generate(
-                    6,
-                    (i) => AnimatedContainer(
-                      duration: const Duration(milliseconds: 250),
-                      margin: const EdgeInsets.symmetric(horizontal: 4),
-                      width: i == 5 ? 38 : 10,
-                      height: 10,
-                      decoration: BoxDecoration(
-                        color: i == 5
-                            ? Colors.white
-                            : Colors.white.withValues(alpha: 0.28),
-                        borderRadius: BorderRadius.circular(99),
+              ),
+              Padding(
+                padding: card.contentPadding,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    _Chip(
+                      label: card.chip,
+                      color: card.chipColor,
+                      padding: card.chipPadding,
+                      fontSize: card.chipFontSize,
+                    ),
+                    SizedBox(height: card.chipToTitleSpacing),
+                    Text(
+                      card.title,
+                      maxLines: card.titleMaxLines,
+                      overflow: TextOverflow.ellipsis,
+                      style:
+                          card.titleStyle ??
+                          const TextStyle(
+                            fontSize: 24,
+                            fontWeight: FontWeight.w500,
+                            letterSpacing: -0.7,
+                            height: 1.05,
+                            color: Colors.white,
+                          ),
+                    ),
+                    const SizedBox(height: 12),
+                    Expanded(
+                      child: Padding(
+                        padding: EdgeInsets.only(
+                          bottom: card.descriptionBottomSpacing,
+                        ),
+                        child: Align(
+                          alignment: card.descriptionAlignment,
+                          child: Text(
+                            card.description,
+                            maxLines: card.descriptionMaxLines,
+                            overflow: TextOverflow.ellipsis,
+                            textAlign: card.descriptionTextAlign,
+                            style:
+                                card.descriptionStyle ??
+                                TextStyle(
+                                  fontSize: 18,
+                                  height: 1.18,
+                                  fontWeight: FontWeight.w400,
+                                  color: Colors.white.withValues(alpha: 0.95),
+                                ),
+                          ),
+                        ),
                       ),
                     ),
-                  ),
-                ],
+                    Align(
+                      alignment: Alignment.center,
+                      child: FractionallySizedBox(
+                        widthFactor: buttonWidthFactor,
+                        child: _GradientButton(
+                          label: card.buttonText,
+                          onTap: card.onButtonTap,
+                          icon: card.buttonIcon,
+                          height: card.buttonHeight,
+                          borderRadius: card.buttonBorderRadius,
+                          gradient: card.buttonGradient,
+                          padding: card.buttonPadding,
+                          iconSize: card.buttonIconSize,
+                          iconSpacing: card.buttonIconSpacing,
+                          textStyle: card.buttonTextStyle,
+                          minWidth: card.buttonMinWidth,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
               ),
-            ),
-        ],
+            ],
+          ),
+        ),
       ),
     );
   }
 }
 
 class _Chip extends StatelessWidget {
-  const _Chip({required this.label, required this.color});
+  const _Chip({
+    required this.label,
+    required this.color,
+    this.padding = const EdgeInsets.symmetric(horizontal: 22, vertical: 14),
+    this.fontSize = 13,
+  });
 
   final String label;
   final Color color;
+  final EdgeInsets padding;
+  final double fontSize;
 
   @override
   Widget build(BuildContext context) {
@@ -471,7 +227,7 @@ class _Chip extends StatelessWidget {
       child: BackdropFilter(
         filter: ImageFilter.blur(sigmaX: 6, sigmaY: 6),
         child: Container(
-          padding: const EdgeInsets.symmetric(horizontal: 22, vertical: 14),
+          padding: padding,
           decoration: BoxDecoration(
             color: color.withValues(alpha: 0.34),
             borderRadius: BorderRadius.circular(999),
@@ -479,9 +235,9 @@ class _Chip extends StatelessWidget {
           ),
           child: Text(
             label.toUpperCase(),
-            style: const TextStyle(
+            style: TextStyle(
               color: Colors.white,
-              fontSize: 13,
+              fontSize: fontSize,
               fontWeight: FontWeight.w500,
               letterSpacing: 0.1,
             ),
@@ -493,403 +249,78 @@ class _Chip extends StatelessWidget {
 }
 
 class _GradientButton extends StatelessWidget {
-  const _GradientButton({required this.label});
+  const _GradientButton({
+    required this.label,
+    this.onTap,
+    this.icon = Icons.play_arrow_rounded,
+    this.height = 78,
+    this.borderRadius = 18,
+    this.gradient = const LinearGradient(
+      colors: [Color(0xFF2E98F4), Color(0xFFB33ACF)],
+    ),
+    this.padding = const EdgeInsets.symmetric(horizontal: 18),
+    this.iconSize = 28,
+    this.iconSpacing = 12,
+    this.textStyle = const TextStyle(
+      color: Colors.white,
+      fontSize: 22,
+      fontWeight: FontWeight.w600,
+      letterSpacing: -0.3,
+    ),
+    this.minWidth = 0,
+  });
 
   final String label;
+  final VoidCallback? onTap;
+  final IconData icon;
+  final double height;
+  final double borderRadius;
+  final Gradient gradient;
+  final EdgeInsets padding;
+  final double iconSize;
+  final double iconSpacing;
+  final TextStyle textStyle;
+  final double minWidth;
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: 78,
-      decoration: BoxDecoration(
-        gradient: const LinearGradient(
-          colors: [Color(0xFF2E98F4), Color(0xFFB33ACF)],
-        ),
-        borderRadius: BorderRadius.circular(18),
-      ),
+    final radius = BorderRadius.circular(borderRadius);
+
+    return ConstrainedBox(
+      constraints: BoxConstraints(minWidth: minWidth),
       child: Material(
         color: Colors.transparent,
         child: InkWell(
-          borderRadius: BorderRadius.circular(18),
-          onTap: () {},
-          child: Center(
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                const Icon(
-                  Icons.play_arrow_rounded,
-                  size: 28,
-                  color: Colors.white,
-                ),
-                const SizedBox(width: 12),
-                Text(
-                  label,
-                  style: const TextStyle(
-                    color: Colors.white,
-                    fontSize: 22,
-                    fontWeight: FontWeight.w600,
-                    letterSpacing: -0.3,
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-class _CategoryChip extends StatelessWidget {
-  const _CategoryChip({required this.label, required this.selected});
-
-  final String label;
-  final bool selected;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 26, vertical: 16),
-      decoration: BoxDecoration(
-        color: selected ? const Color(0xFF2F97F0) : const Color(0xFF222325),
-        borderRadius: BorderRadius.circular(26),
-        border: Border.all(
-          color: selected ? Colors.transparent : const Color(0xFF44464A),
-          width: 1.2,
-        ),
-      ),
-      child: Text(
-        label,
-        style: TextStyle(
-          color: selected ? Colors.white : const Color(0xFFB0B2B6),
-          fontSize: 18,
-          fontWeight: FontWeight.w400,
-        ),
-      ),
-    );
-  }
-}
-
-class _VideoStripCard extends StatelessWidget {
-  const _VideoStripCard({required this.video});
-
-  final RecentVideoData video;
-
-  @override
-  Widget build(BuildContext context) {
-    return ClipRRect(
-      borderRadius: BorderRadius.circular(18),
-      child: Stack(
-        fit: StackFit.expand,
-        children: [
-          Image.network(video.image, fit: BoxFit.cover),
-          Container(
-            decoration: BoxDecoration(
-              gradient: LinearGradient(
-                begin: Alignment.topCenter,
-                end: Alignment.bottomCenter,
-                colors: [
-                  Colors.black.withValues(alpha: 0.05),
-                  Colors.black.withValues(alpha: 0.12),
-                  Colors.black.withValues(alpha: 0.50),
-                ],
-              ),
-            ),
-          ),
-          Positioned(
-            top: 10,
-            left: 10,
-            child: _SmallTag(text: video.overlayLabel),
-          ),
-          const Center(
-            child: CircleAvatar(
-              radius: 28,
-              backgroundColor: Color(0x90FFFFFF),
-              child: Icon(
-                Icons.play_arrow_rounded,
-                size: 34,
-                color: Colors.black,
-              ),
-            ),
-          ),
-          Positioned(
-            right: 12,
-            bottom: 10,
-            child: Container(
-              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
-              decoration: BoxDecoration(
-                color: Colors.black.withValues(alpha: 0.55),
-                borderRadius: BorderRadius.circular(12),
-              ),
-              child: Text(
-                video.duration,
-                style: const TextStyle(
-                  color: Colors.white,
-                  fontSize: 13,
-                  fontWeight: FontWeight.w500,
-                ),
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class _RecentVideoCard extends StatelessWidget {
-  const _RecentVideoCard({required this.video});
-
-  final RecentVideoData video;
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        ClipRRect(
-          borderRadius: BorderRadius.circular(22),
-          child: Stack(
-            children: [
-              AspectRatio(
-                aspectRatio: 1.40,
-                child: Image.network(video.image, fit: BoxFit.cover),
-              ),
-              Container(
-                decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                    begin: Alignment.topCenter,
-                    end: Alignment.bottomCenter,
-                    colors: [
-                      Colors.transparent,
-                      Colors.black.withValues(alpha: 0.12),
-                      Colors.black.withValues(alpha: 0.45),
+          onTap: onTap,
+          borderRadius: radius,
+          child: Ink(
+            height: height,
+            decoration: BoxDecoration(gradient: gradient, borderRadius: radius),
+            child: Padding(
+              padding: padding,
+              child: Center(
+                child: FittedBox(
+                  fit: BoxFit.scaleDown,
+                  alignment: Alignment.center,
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Icon(icon, size: iconSize, color: Colors.white),
+                      SizedBox(width: iconSpacing),
+                      Text(
+                        label,
+                        maxLines: 1,
+                        softWrap: false,
+                        overflow: TextOverflow.ellipsis,
+                        style: textStyle,
+                      ),
                     ],
                   ),
                 ),
               ),
-              Positioned(
-                top: 12,
-                left: 12,
-                child: _SmallTag(text: video.overlayLabel),
-              ),
-              const Center(
-                child: CircleAvatar(
-                  radius: 30,
-                  backgroundColor: Color(0xCCFFFFFF),
-                  child: Icon(
-                    Icons.play_arrow_rounded,
-                    size: 38,
-                    color: Colors.black,
-                  ),
-                ),
-              ),
-              Positioned(
-                right: 12,
-                bottom: 12,
-                child: Container(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 10,
-                    vertical: 7,
-                  ),
-                  decoration: BoxDecoration(
-                    color: Colors.black.withValues(alpha: 0.55),
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                  child: Text(
-                    video.duration,
-                    style: const TextStyle(
-                      color: Colors.white,
-                      fontSize: 14,
-                      fontWeight: FontWeight.w500,
-                    ),
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ),
-        const SizedBox(height: 14),
-        Text(
-          video.title,
-          maxLines: 2,
-          overflow: TextOverflow.ellipsis,
-          style: const TextStyle(
-            fontSize: 22,
-            fontWeight: FontWeight.w400,
-            letterSpacing: -0.35,
-            height: 1.2,
-          ),
-        ),
-        const SizedBox(height: 12),
-        Container(
-          padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
-          decoration: BoxDecoration(
-            color: const Color(0xFF17371B),
-            borderRadius: BorderRadius.circular(20),
-            border: Border.all(color: const Color(0xFF255B28)),
-          ),
-          child: Text(
-            video.tag,
-            style: const TextStyle(
-              color: Color(0xFF4FC05E),
-              fontSize: 15,
-              fontWeight: FontWeight.w500,
             ),
           ),
         ),
-      ],
-    );
-  }
-}
-
-class _SmallTag extends StatelessWidget {
-  const _SmallTag({required this.text});
-
-  final String text;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-      decoration: BoxDecoration(
-        color: Colors.black.withValues(alpha: 0.26),
-        borderRadius: BorderRadius.circular(999),
-        border: Border.all(color: Colors.white.withValues(alpha: 0.10)),
-      ),
-      child: Text(
-        text,
-        style: const TextStyle(
-          color: Colors.white,
-          fontSize: 12,
-          fontWeight: FontWeight.w500,
-        ),
-      ),
-    );
-  }
-}
-
-class _BottomNav extends StatelessWidget {
-  const _BottomNav({required this.currentIndex, required this.onChanged});
-
-  final int currentIndex;
-  final ValueChanged<int> onChanged;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        color: const Color(0xFF111114),
-        border: Border(
-          top: BorderSide(color: Colors.white.withValues(alpha: 0.04)),
-        ),
-      ),
-      child: SafeArea(
-        top: false,
-        child: SizedBox(
-          height: 84,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
-              _NavItem(
-                icon: Icons.home_outlined,
-                label: 'Accueil',
-                active: currentIndex == 0,
-                onTap: () => onChanged(0),
-              ),
-              _NavItem(
-                icon: Icons.sports_esports_outlined,
-                label: 'Quizz',
-                active: currentIndex == 1,
-                onTap: () => onChanged(1),
-              ),
-              _NavItem(
-                icon: Icons.cast_connected_outlined,
-                label: 'Nos vidéos',
-                active: currentIndex == 2,
-                onTap: () => onChanged(2),
-              ),
-              Stack(
-                clipBehavior: Clip.none,
-                children: [
-                  _NavItem(
-                    icon: Icons.auto_awesome_outlined,
-                    label: 'Shorts',
-                    active: currentIndex == 3,
-                    onTap: () => onChanged(3),
-                  ),
-                  Positioned(
-                    right: -12,
-                    top: 2,
-                    child: Container(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 8,
-                        vertical: 4,
-                      ),
-                      decoration: BoxDecoration(
-                        color: const Color(0xFF2F97F0),
-                        borderRadius: BorderRadius.circular(999),
-                      ),
-                      child: const Text(
-                        'nouveau',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 12,
-                          fontWeight: FontWeight.w500,
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-              _NavItem(
-                icon: Icons.person_outline,
-                label: 'Profil',
-                active: currentIndex == 4,
-                onTap: () => onChanged(4),
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-class _NavItem extends StatelessWidget {
-  const _NavItem({
-    required this.icon,
-    required this.label,
-    required this.active,
-    required this.onTap,
-  });
-
-  final IconData icon;
-  final String label;
-  final bool active;
-  final VoidCallback onTap;
-
-  @override
-  Widget build(BuildContext context) {
-    final color = active ? const Color(0xFF2F97F0) : Colors.white;
-    return GestureDetector(
-      onTap: onTap,
-      behavior: HitTestBehavior.opaque,
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Icon(icon, size: 30, color: color),
-          const SizedBox(height: 4),
-          Text(
-            label,
-            style: TextStyle(
-              color: color.withValues(alpha: active ? 1 : 0.92),
-              fontSize: 14,
-              fontWeight: FontWeight.w400,
-            ),
-          ),
-        ],
       ),
     );
   }
@@ -906,6 +337,36 @@ class HeroCardData {
     required this.backgroundTint,
     required this.chipColor,
     required this.overlayOpacity,
+    this.onButtonTap,
+    this.buttonIcon = Icons.play_arrow_rounded,
+    this.buttonHeight = 78,
+    this.buttonBorderRadius = 18,
+    this.buttonGradient = const LinearGradient(
+      colors: [Color(0xFF2E98F4), Color(0xFFB33ACF)],
+    ),
+    this.buttonPadding = const EdgeInsets.symmetric(horizontal: 18),
+    this.buttonIconSize = 28,
+    this.buttonIconSpacing = 12,
+    this.buttonTextStyle = const TextStyle(
+      color: Colors.white,
+      fontSize: 22,
+      fontWeight: FontWeight.w600,
+      letterSpacing: -0.3,
+    ),
+    this.buttonMinWidth = 0,
+    this.chipPadding = const EdgeInsets.symmetric(horizontal: 22, vertical: 14),
+    this.chipFontSize = 13,
+    this.titleMaxLines = 1,
+    this.descriptionMaxLines = 6,
+    this.descriptionBottomSpacing = 18,
+    this.titleStyle,
+    this.descriptionStyle,
+    this.aspectRatio = 0.82,
+    this.borderRadius = 20,
+    this.contentPadding = const EdgeInsets.fromLTRB(20, 24, 20, 18),
+    this.chipToTitleSpacing = 28,
+    this.descriptionAlignment = Alignment.center,
+    this.descriptionTextAlign = TextAlign.center,
   });
 
   final String chip;
@@ -917,27 +378,33 @@ class HeroCardData {
   final Color backgroundTint;
   final Color chipColor;
   final double overlayOpacity;
-}
 
-class CategoryChipData {
-  const CategoryChipData({required this.label, required this.selected});
+  final VoidCallback? onButtonTap;
 
-  final String label;
-  final bool selected;
-}
+  final IconData buttonIcon;
+  final double buttonHeight;
+  final double buttonBorderRadius;
+  final Gradient buttonGradient;
+  final EdgeInsets buttonPadding;
+  final double buttonIconSize;
+  final double buttonIconSpacing;
+  final TextStyle buttonTextStyle;
+  final double buttonMinWidth;
 
-class RecentVideoData {
-  const RecentVideoData({
-    required this.title,
-    required this.duration,
-    required this.tag,
-    required this.image,
-    required this.overlayLabel,
-  });
+  final EdgeInsets chipPadding;
+  final double chipFontSize;
 
-  final String title;
-  final String duration;
-  final String tag;
-  final String image;
-  final String overlayLabel;
+  final int titleMaxLines;
+  final int descriptionMaxLines;
+  final double descriptionBottomSpacing;
+
+  final TextStyle? titleStyle;
+  final TextStyle? descriptionStyle;
+
+  final double aspectRatio;
+  final double borderRadius;
+  final EdgeInsets contentPadding;
+  final double chipToTitleSpacing;
+  final Alignment descriptionAlignment;
+  final TextAlign descriptionTextAlign;
 }

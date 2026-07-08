@@ -18,6 +18,7 @@ class BuildSection extends StatelessWidget {
   final bool showProgress;
   final ContentCardStyle cardStyle;
   final VoidCallback? onViewAll;
+  final bool isAll;
 
   const BuildSection({
     super.key,
@@ -27,6 +28,7 @@ class BuildSection extends StatelessWidget {
     this.showProgress = false,
     this.cardStyle = ContentCardStyle.portrait,
     this.onViewAll,
+    this.isAll = false,
   });
 
   @override
@@ -129,37 +131,38 @@ class BuildSection extends StatelessWidget {
                   ),
                 ),
                 SizedBox(width: AppSpacing.xs),
-                TextButton(
-                  onPressed: onViewAll,
-                  style: TextButton.styleFrom(
-                    padding: EdgeInsets.symmetric(
-                      horizontal: 12.w,
-                      vertical: 8.h,
+                if (isAll)
+                  TextButton(
+                    onPressed: onViewAll,
+                    style: TextButton.styleFrom(
+                      padding: EdgeInsets.symmetric(
+                        horizontal: 12.w,
+                        vertical: 8.h,
+                      ),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(999.r),
+                      ),
+                      foregroundColor: AppColors.primary,
                     ),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(999.r),
-                    ),
-                    foregroundColor: AppColors.primary,
-                  ),
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Text(
-                        'Voir tout',
-                        style: AppTypography.labelSmall.copyWith(
-                          color: AppColors.primary,
-                          fontWeight: FontWeight.w700,
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Text(
+                          'Voir tout',
+                          style: AppTypography.labelSmall.copyWith(
+                            color: AppColors.primary,
+                            fontWeight: FontWeight.w700,
+                          ),
                         ),
-                      ),
-                      SizedBox(width: 4.w),
-                      Icon(
-                        Icons.arrow_forward_rounded,
-                        size: 14.sp,
-                        color: AppColors.primary,
-                      ),
-                    ],
+                        SizedBox(width: 4.w),
+                        Icon(
+                          Icons.arrow_forward_rounded,
+                          size: 14.sp,
+                          color: AppColors.primary,
+                        ),
+                      ],
+                    ),
                   ),
-                ),
               ],
             ),
           ),
@@ -193,177 +196,178 @@ class _ContentCardPortrait extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
+    return InkWell(
       onTap: () => Get.toNamed(Routes.detail, arguments: content),
       child: SizedBox(
         width: 152.w,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Expanded(
-              child: Container(
-                decoration: BoxDecoration(
-                  borderRadius: AppRadius.mdAll,
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.black.withValues(alpha: 0.14),
-                      blurRadius: 18,
-                      offset: const Offset(0, 8),
-                    ),
-                  ],
-                ),
-                child: ClipRRect(
-                  borderRadius: AppRadius.mdAll,
-                  child: Stack(
-                    fit: StackFit.expand,
-                    children: [
-                      SafeNetworkImage(
-                        imageUrl: content.coverImage,
-                        fit: BoxFit.cover,
-                        placeholder: (_, _) =>
-                            Container(color: AppColors.surfaceDark2),
-                        errorWidget: (_, _, _) => Container(
-                          color: AppColors.surfaceDark2,
-                          child: const Icon(
-                            Icons.broken_image_rounded,
-                            color: Colors.white30,
-                          ),
-                        ),
-                      ),
-                      const DecoratedBox(
-                        decoration: BoxDecoration(
-                          gradient: LinearGradient(
-                            begin: Alignment.topCenter,
-                            end: Alignment.bottomCenter,
-                            colors: [
-                              Color(0x10000000),
-                              Color(0x2A000000),
-                              Color(0xD0000000),
-                            ],
-                            stops: [0.0, 0.55, 1.0],
-                          ),
-                        ),
-                      ),
-                      Positioned(
-                        left: 10.w,
-                        right: 10.w,
-                        top: 10.h,
-                        child: Row(
-                          children: [
-                            _FloatingBadge(
-                              label: content.typeLabel,
-                              color: AppColors.primary,
-                            ),
-                            if (content.isTrending) ...[
-                              const _FloatingBadge(
-                                label: '🔥 Trend',
-                                color: AppColors.accent,
-                              ),
-                            ],
-                          ],
-                        ),
-                      ),
-                      Positioned(
-                        left: 10.w,
-                        right: 10.w,
-                        bottom: 10.h,
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            Text(
-                              content.title,
-                              style: AppTypography.titleSmall.copyWith(
-                                color: Colors.white,
-                                fontWeight: FontWeight.w800,
-                                height: 1.15,
-                                shadows: const [
-                                  Shadow(
-                                    blurRadius: 12,
-                                    color: Colors.black54,
-                                    offset: Offset(0, 3),
-                                  ),
-                                ],
-                              ),
-                              maxLines: 2,
-                              overflow: TextOverflow.ellipsis,
-                            ),
-                            SizedBox(height: 6.h),
-                            Row(
-                              children: [
-                                const Icon(
-                                  Icons.person_outline_rounded,
-                                  size: 14,
-                                  color: Colors.white70,
-                                ),
-                                SizedBox(width: 4.w),
-                                Expanded(
-                                  child: Text(
-                                    content.authorName,
-                                    style: AppTypography.caption.copyWith(
-                                      color: Colors.white70,
-                                      fontWeight: FontWeight.w500,
-                                    ),
-                                    maxLines: 1,
-                                    overflow: TextOverflow.ellipsis,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ],
-                        ),
+        child: AspectRatio(
+          aspectRatio: 0.67,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Expanded(
+                child: Container(
+                  decoration: BoxDecoration(
+                    borderRadius: AppRadius.mdAll,
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withValues(alpha: 0.14),
+                        blurRadius: 18,
+                        offset: const Offset(0, 8),
                       ),
                     ],
                   ),
+                  child: Expanded(
+                    child: ClipRRect(
+                      borderRadius: AppRadius.mdAll,
+                      child: Stack(
+                        fit: StackFit.expand,
+                        children: [
+                          SafeNetworkImage(
+                            key: ValueKey(content.id),
+                            imageUrl: content.coverImage,
+                            fit: BoxFit.cover,
+                            placeholder: (_, _) =>
+                                Container(color: AppColors.surfaceDark2),
+                            errorWidget: (_, _, _) => Container(
+                              color: AppColors.surfaceDark2,
+                              child: const Icon(
+                                Icons.broken_image_rounded,
+                                color: Colors.white30,
+                              ),
+                            ),
+                          ),
+                          const DecoratedBox(
+                            decoration: BoxDecoration(
+                              gradient: LinearGradient(
+                                begin: Alignment.topCenter,
+                                end: Alignment.bottomCenter,
+                                colors: [
+                                  Color(0x10000000),
+                                  Color(0x2A000000),
+                                  Color(0xD0000000),
+                                ],
+                                stops: [0.0, 0.55, 1.0],
+                              ),
+                            ),
+                          ),
+                          Positioned(
+                            left: 10.w,
+                            right: 10.w,
+                            top: 10.h,
+                            child: Row(
+                              children: [
+                                _FloatingBadge(
+                                  label: content.typeLabel,
+                                  color: AppColors.accent,
+                                ),
+                              ],
+                            ),
+                          ),
+                          Positioned(
+                            left: 10.w,
+                            right: 10.w,
+                            bottom: 10.h,
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Text(
+                                  content.title,
+                                  style: AppTypography.titleSmall.copyWith(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.w800,
+                                    height: 1.15,
+                                    shadows: const [
+                                      Shadow(
+                                        blurRadius: 12,
+                                        color: Colors.black54,
+                                        offset: Offset(0, 3),
+                                      ),
+                                    ],
+                                  ),
+                                  maxLines: 2,
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                                SizedBox(height: 6.h),
+                                Row(
+                                  children: [
+                                    const Icon(
+                                      Icons.person_outline_rounded,
+                                      size: 14,
+                                      color: Colors.white70,
+                                    ),
+                                    SizedBox(width: 4.w),
+                                    Expanded(
+                                      child: Text(
+                                        content.authorName,
+                                        style: AppTypography.caption.copyWith(
+                                          color: Colors.white70,
+                                          fontWeight: FontWeight.w500,
+                                        ),
+                                        maxLines: 1,
+                                        overflow: TextOverflow.ellipsis,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
                 ),
               ),
-            ),
-            SizedBox(height: 8.h),
-            if (content.formattedDuration.isNotEmpty || content.isAudio)
-              Row(
-                children: [
-                  if (content.formattedDuration.isNotEmpty) ...[
-                    Icon(
-                      Icons.schedule_rounded,
-                      size: 11.sp,
-                      color: AppColors.textTertiaryDark,
-                    ),
-                    SizedBox(width: 3.w),
-                    Flexible(
-                      child: Text(
-                        content.formattedDuration,
-                        style: AppTypography.caption.copyWith(
-                          color: const Color.fromARGB(255, 216, 13, 114),
-                          fontWeight: FontWeight.w600,
-                        ),
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
+              SizedBox(
+                height: 24.h,
+                child: Row(
+                  children: [
+                    if (content.formattedDuration.isNotEmpty) ...[
+                      Icon(
+                        Icons.schedule_rounded,
+                        size: 11.sp,
+                        color: AppColors.textTertiaryDark,
                       ),
-                    ),
-                  ],
-                  if (content.isAudio) ...[
-                    SizedBox(width: 8.w),
-                    Container(
-                      padding: EdgeInsets.symmetric(
-                        horizontal: 7.w,
-                        vertical: 3.h,
-                      ),
-                      decoration: BoxDecoration(
-                        color: AppColors.primary.withValues(alpha: 0.12),
-                        borderRadius: BorderRadius.circular(999.r),
-                      ),
-                      child: Text(
-                        'Audio',
-                        style: AppTypography.caption.copyWith(
-                          color: AppColors.primary,
-                          fontWeight: FontWeight.w700,
+                      SizedBox(width: 3.w),
+                      Flexible(
+                        child: Text(
+                          content.formattedDuration,
+                          style: AppTypography.caption.copyWith(
+                            color: const Color.fromARGB(255, 216, 13, 114),
+                            fontWeight: FontWeight.w600,
+                          ),
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
                         ),
                       ),
-                    ),
+                    ],
+                    if (content.isAudio) ...[
+                      SizedBox(width: 8.w),
+                      Container(
+                        padding: EdgeInsets.symmetric(
+                          horizontal: 7.w,
+                          vertical: 3.h,
+                        ),
+                        decoration: BoxDecoration(
+                          color: AppColors.primary.withValues(alpha: 0.12),
+                          borderRadius: BorderRadius.circular(999.r),
+                        ),
+                        child: Text(
+                          'Audio',
+                          style: AppTypography.caption.copyWith(
+                            color: AppColors.primary,
+                            fontWeight: FontWeight.w700,
+                          ),
+                        ),
+                      ),
+                    ],
                   ],
-                ],
+                ),
               ),
-          ],
+            ],
+          ),
         ),
       ),
     );
@@ -377,7 +381,7 @@ class _ContentCardLandscape extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
+    return InkWell(
       onTap: () => Get.toNamed(Routes.detail, arguments: content),
       child: Container(
         width: 310.w,
@@ -536,6 +540,7 @@ class _FloatingBadge extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 5.h),
+      constraints: BoxConstraints(maxWidth: 100.w),
       decoration: BoxDecoration(
         color: color.withValues(alpha: 0.18),
         borderRadius: BorderRadius.circular(999.r),

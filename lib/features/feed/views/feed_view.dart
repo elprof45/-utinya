@@ -33,7 +33,13 @@ class FeedView extends GetView<FeedController> {
                     ),
                   ),
                   const Spacer(),
-                  Icon(Icons.tune_rounded, color: AppColors.textSecondaryDark),
+                  IconButton(
+                    onPressed: () {},
+                    icon: Icon(
+                      Icons.tune_rounded,
+                      color: AppColors.textSecondaryDark,
+                    ),
+                  ),
                 ],
               ),
             ),
